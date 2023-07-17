@@ -24,18 +24,18 @@ const SideBar = () => {
           }
         >
           <Icon size={"1.4rem"} />
-          <h6 className="ml-2 hidden lg:group-hover:block">{name}</h6>
+          <h6 className="ml-2 hidden xl:group-hover:block">{name}</h6>
         </div>
       </Link>
     );
   };
 
   return (
-    <div className="fixed left-0 top-0 bottom-0 w-20 lg:hover:w-2/12 h-full p-5 bg-zinc-800 flex flex-col items-center transition-all group">
+    <div className="fixed z-50 left-0 top-0 bottom-0 w-20 xl:hover:w-2/12 h-full p-5 bg-zinc-900 flex flex-col items-center transition-all group">
       <img src="/osis.svg" alt="osissmkn1dumai" className="max-w-[50px]" />
 
       <div className="flex flex-col items-center justify-between h-full">
-        <div className="flex flex-col items-center lg:group-hover:items-start mt-10 ">
+        <div className="flex flex-col items-center xl:group-hover:items-start mt-10 ">
           <SetIcon name="Home" icon={IoHome} />
           <SetIcon name="Presensi" icon={FaList} />
           <SetIcon name="Cari" icon={FaMagnifyingGlass} />
