@@ -1,7 +1,18 @@
-const day = new Date().getDate();
-const month = new Date().getMonth();
+export const day = new Date().getDate();
+export const monthNum = new Date().getMonth();
+export const dayOnWeek = new Date().getDay();
+const year = new Date().getFullYear();
 
-const monthName = [
+export const dayName: string[] = [
+  "Sen",
+  "Sel",
+  "Rab",
+  "Kam",
+  "Jum",
+  "Sab",
+  "Min",
+];
+export const monthName: string[] = [
   "Jan",
   "Feb",
   "Mar",
@@ -16,6 +27,14 @@ const monthName = [
   "Des",
 ];
 
-const dateNow = day + " " + monthName[month];
+export const month = monthName[monthNum];
 
-export default dateNow;
+export const toDayName = dayName[dayOnWeek - 1];
+
+export const jumpDate = new Date(year, monthNum, 1).getDay();
+
+export const dateNow = day + " " + month;
+
+export const spacingDate = Array(jumpDate - 1)
+  .fill("")
+  .map((_, i) => <span key={i} />);
