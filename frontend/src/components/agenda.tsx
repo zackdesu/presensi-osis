@@ -8,7 +8,7 @@ const Agenda = ({ name, time }: { name: string; time: string }) => (
     <p className="opacity-70 col-span-1 flex items-center truncate ...">
       <AiOutlineClockCircle className="mr-2 lg:mr-4" /> {time}
     </p>
-    <BsThreeDotsVertical className="row-span-2 self-center justify-self-end" />
+    <BsThreeDotsVertical className="row-span-2 self-center justify-self-end cursor-pointer active:text-zinc-400" />
   </div>
 );
 
