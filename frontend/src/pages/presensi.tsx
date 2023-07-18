@@ -38,7 +38,7 @@ const Presensi = () => {
         <h6>Status Presensi:&nbsp;</h6>{" "}
         <p>{hadir ? "Hadir" : "Belum Melakukan Presensi"}</p>
       </section>
-      <section className="bg-zinc-950 rounded-xl flex flex-col md:flex-row col-span-full row-span-2 items-center justify-center">
+      <section className="bg-zinc-950 rounded-xl flex flex-col md:flex-row col-span-full row-span-3 items-center justify-center">
         <div className="md:w-3/4 flex flex-col items-center justify-center">
           <h4 className="mb-2">Pertemuan ke - {dataPertemuan.length}</h4>
           <p>Pembahasan: {dataPertemuan[dataPertemuan.length - 1].name}</p>
