@@ -21,11 +21,12 @@ const Calendar = () => (
     </div>
     <div className="w-full h-full grid grid-rows-6 grid-cols-7 place-items-center">
       {spacingDate}
-      {oneMonthDate.map((d) => (
+      {oneMonthDate.map((d, i) => (
         <span
           className={`rounded-full text-[.7rem] flex items-center justify-center w-[20px] h-[20px] p-3 ${
             d === day.toString() && "bg-orange-500"
           }`}
+          key={i}
         >
           {d}{" "}
         </span>
