@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import Presensi from "./pages/presensi";
 import Tentang from "./pages/tentang";
 import Gallery from "./pages/gallery";
+import Bantuan from "./pages/bantuan";
 
 const App = () => {
   return (
@@ -41,6 +42,14 @@ const App = () => {
             </>
           }
           path="/tentang"
+        />
+        <Route
+          element={
+            <>
+              <SideBar /> <Bantuan />
+            </>
+          }
+          path="/bantuan"
         />
       </Routes>
     </Router>
