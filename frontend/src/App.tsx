@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
 import Presensi from "./pages/presensi";
 import Tentang from "./pages/tentang";
+import Gallery from "./pages/gallery";
 
 const App = () => {
   return (
@@ -25,7 +26,14 @@ const App = () => {
           }
           path="/presensi"
         />
-        <Route element={<SideBar />} path="/galeri" />
+        <Route
+          element={
+            <>
+              <SideBar /> <Gallery />{" "}
+            </>
+          }
+          path="/galeri"
+        />
         <Route
           element={
             <>
