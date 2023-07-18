@@ -12,6 +12,17 @@ export const dayName: string[] = [
   "Sab",
   "Min",
 ];
+
+export const dayFullName: string[] = [
+  "Senin",
+  "Selasa",
+  "Rabu",
+  "Kamis",
+  "Jum'at",
+  "Sabtu",
+  "Minggu",
+];
+
 export const monthName: string[] = [
   "Jan",
   "Feb",
@@ -34,6 +45,8 @@ export const toDayName = dayName[dayOnWeek - 1];
 export const jumpDate = new Date(year, monthNum, 1).getDay();
 
 export const dateNow = day + " " + month;
+
+export const fullDate = `${toDayName}, ${day} ${month} ${year}`;
 
 export const spacingDate = Array(jumpDate - 1)
   .fill("")
