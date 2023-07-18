@@ -4,6 +4,7 @@ import { IoHome } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { TfiGallery } from "react-icons/tfi";
+import { BiSolidHelpCircle } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -40,6 +41,7 @@ const SideBar = () => {
           <SetIcon name="Presensi" icon={FaList} />
           <SetIcon name="Galeri" icon={TfiGallery} />
           <SetIcon name="Tentang" icon={BsInfoCircleFill} />
+          <SetIcon name="Bantuan" icon={BiSolidHelpCircle} />
         </div>
         <div>
           <TbLogout2 size="1.6rem" className="cursor-pointer text-white" />
