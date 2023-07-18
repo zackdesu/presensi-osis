@@ -1,9 +1,9 @@
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaList } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { IoHome } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { TfiGallery } from "react-icons/tfi";
 
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -38,7 +38,7 @@ const SideBar = () => {
         <div className="flex flex-col items-center xl:group-hover:items-start mt-10 ">
           <SetIcon name="Home" icon={IoHome} />
           <SetIcon name="Presensi" icon={FaList} />
-          <SetIcon name="Cari" icon={FaMagnifyingGlass} />
+          <SetIcon name="Galeri" icon={TfiGallery} />
           <SetIcon name="Tentang" icon={BsInfoCircleFill} />
         </div>
         <div>
