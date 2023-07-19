@@ -2,7 +2,7 @@ import Header from "../components/header";
 
 const Tentang = () => {
   return (
-    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8">
+    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-20">
       <Header />
       <div className="col-span-full row-span-5 flex flex-col items-center overflow-auto">
         <h3 className="">Tentang Kami</h3>
