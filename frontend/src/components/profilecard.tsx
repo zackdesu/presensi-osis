@@ -1,6 +1,8 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
-import { dataUser } from "./data";
+import { DataUser } from "./type";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Cards = ({
   img,
@@ -31,24 +33,40 @@ const Cards = ({
   </div>
 );
 
-const sortedUser = dataUser.slice().sort((a, b) => {
-  if (a.status === "Online" && b.status === "Offline") return -1;
-  if (a.status === "Offline" && b.status === "Online") return 1;
+const ProfileCard = () => {
+  const [dataUser, setDataUser] = useState<DataUser[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  if (a.name < b.name) return -1;
-  if (a.name > b.name) return 1;
-  else return 0;
-});
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/datauser")
+      .then((res) => {
+        setDataUser(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-const ProfileCard = () => (
-  <>
-    <h4 className="mb-3">Pengurus</h4>
-    <div className="overflow-y-auto w-full">
-      {sortedUser.map((e, i) => (
-        <Cards name={e.name} img={e.img} status={e.status} key={i} />
-      ))}
-    </div>
-  </>
-);
+  const sortedUser = dataUser.slice().sort((a, b) => {
+    if (a.status === "Online" && b.status === "Offline") return -1;
+    if (a.status === "Offline" && b.status === "Online") return 1;
+
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    else return 0;
+  });
+  return (
+    <>
+      <h4 className="mb-3">Pengurus</h4>
+      <div className="overflow-y-auto w-full">
+        {isLoading
+          ? "Loading..."
+          : sortedUser.map((e, i) => (
+              <Cards name={e.name} img={e.img} status={e.status} key={i} />
+            ))}
+      </div>
+    </>
+  );
+};
 
 export default ProfileCard;
