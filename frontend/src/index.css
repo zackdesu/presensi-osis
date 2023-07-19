@@ -7,7 +7,7 @@
 @layer base {
   html,
   body {
-    @apply h-full w-full pl-10 bg-zinc-900 text-white font-NotoSans;
+    @apply h-full w-full bg-zinc-900 text-white font-NotoSans;
   }
 
   #root {
