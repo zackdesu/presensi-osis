@@ -5,6 +5,8 @@ import Presensi from "./pages/presensi";
 import Tentang from "./pages/tentang";
 import Gallery from "./pages/gallery";
 import Bantuan from "./pages/bantuan";
+import Login from "./pages/login";
+import Register from "./pages/register";
 
 const App = () => {
   return (
@@ -50,6 +52,22 @@ const App = () => {
             </>
           }
           path="/bantuan"
+        />
+        <Route
+          element={
+            <>
+              <Login />
+            </>
+          }
+          path="/login"
+        />
+        <Route
+          element={
+            <>
+              <Register />
+            </>
+          }
+          path="/Register"
         />
       </Routes>
     </Router>
