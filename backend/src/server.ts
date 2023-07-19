@@ -1,72 +1,39 @@
-import express, {
-  Express,
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-} from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
+import router from "./data/data";
 
-class App {
-  protected readonly app: Express;
-  protected port: Number;
+const app: Express = express();
+const port: number = 3000;
 
-  constructor(port: number = 3000) {
-    this.app = express();
-    this.port = port;
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const allowedOrigins = ["http://localhost:5173"];
+  const origin = req.headers.origin;
+
+  if (origin) {
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
   }
-}
+  // res.setHeader(
+  //   "Access-Control-Allow-Origin",
+  //   "http://localhost:5173, https://voting-web-mu.vercel.app"
+  // );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  return next();
+});
 
-export class Server extends App {
-  private startCall?: boolean = true;
-  public start() {
-    if (!this.startCall)
-      throw new Error(`start() function has been called more than once.`);
-    this.app.listen(this.port, () =>
-      console.log(`Server is listening to http://localhost:${this.port}`)
-    );
-    delete this.startCall;
-  }
+app.use(router);
 
-  public getApp() {
-    return this.app;
-  }
-}
+app.get("/", (req: Request, res: Response) => {
+  res.send("Server is online...");
+});
 
-export class Method extends App {
-  private corsCall: boolean = true;
+app.use("/", (req: Request, res: Response) => {
+  res.status(404).send("404");
+});
 
-  public use(content: RequestHandler) {
-    this.app.use(content);
-  }
-
-  public cors(...allowedOrigins: string[]) {
-    if (!this.corsCall)
-      throw new Error("cors() function is called more than once.");
-
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
-      const origin = req.headers.origin;
-
-      if (origin) {
-        if (allowedOrigins.includes(origin)) {
-          res.setHeader("Access-Control-Allow-Origin", origin);
-        }
-      }
-
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
-      );
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-      );
-      res.setHeader("Access-Control-Allow-Credentials", "true");
-      return next();
-    });
-  }
-  public get(content: string | JSON) {
-    this.app.get("/", (req: Request, res: Response) => {
-      res.status(200).json(content);
-    });
-  }
-}
+app.listen(port, () => console.log("localhost:" + port));
