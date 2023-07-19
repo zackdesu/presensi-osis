@@ -1,5 +1,5 @@
 import express, { Express, NextFunction, Request, Response } from "express";
-import router from "./data/data";
+import router from "./route/data";
 
 const app: Express = express();
 const port: number = 3000;
