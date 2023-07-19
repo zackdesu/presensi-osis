@@ -1,3 +1,14 @@
-### GET
+###
 
 GET http://localhost:3000
+
+###
+
+GET http://localhost:3000/userdata
+
+###
+GET http://localhost:3000/agendadata
+
+###
+
+GET http://localhost:3000/pertemuandata
