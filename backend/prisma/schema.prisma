@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model agenda {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  date DateTime @db.Date
+  name String
+}
+
+model pertemuan {
+  id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  date DateTime @db.Date
+  name String
+}
+
+model user {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  img         String
+  kehadiran   Int
+  name        String
+  role        String
+  status      String
+  statusHadir String
+}
