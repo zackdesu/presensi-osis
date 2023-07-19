@@ -1,10 +1,26 @@
 import Header from "../components/header";
-import { dataPertemuan, dataUser } from "../components/data";
+import { dataUser } from "../components/data";
 import { useEffect, useState } from "react";
+import { DataAgendaPertemuan } from "../components/type";
+import axios from "axios";
 
 const Presensi = () => {
-  const [hadir, setHadir] = useState(false);
-  const [kehadiranUser, setKehadiranUser] = useState(dataUser[0].kehadiran);
+  const [dataPertemuan, setDataPertemuan] = useState<DataAgendaPertemuan[]>([]);
+  const [hadir, setHadir] = useState<boolean>(false);
+  const [kehadiranUser, setKehadiranUser] = useState<number>(
+    dataUser[0].kehadiran
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/datapertemuan")
+      .then((res) => {
+        setDataPertemuan(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     if (!hadir) return;
@@ -16,13 +32,20 @@ const Presensi = () => {
   }, [hadir, setHadir]);
 
   return (
-    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8">
+    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-20">
       <Header />
       <section className="bg-zinc-950 rounded-xl col-span-full md:col-span-5 md:row-span-2 flex flex-col items-center justify-center p-1">
         <h6>Tingkat kehadiranmu adalah</h6>
-        <h2>{Math.round((kehadiranUser / dataPertemuan.length) * 100)}%</h2>
+        <h2>
+          {isLoading
+            ? 0
+            : Math.round((kehadiranUser / dataPertemuan.length) * 100)}
+          %
+        </h2>
         <p>
-          {kehadiranUser} dari {dataPertemuan.length} pertemuan
+          {isLoading
+            ? "Loading..."
+            : `${kehadiranUser} dari ${dataPertemuan.length} pertemuan`}
         </p>
       </section>
       <section className="bg-zinc-950 rounded-xl col-span-full flex items-center justify-center md:col-span-7">
@@ -41,8 +64,20 @@ const Presensi = () => {
       <section className="bg-zinc-950 rounded-xl flex flex-col md:flex-row col-span-full row-span-3 items-center justify-center">
         <div className="md:w-3/4 flex flex-col items-center justify-center">
           <h4 className="mb-2">Pertemuan ke - {dataPertemuan.length}</h4>
-          <p>Pembahasan: {dataPertemuan[dataPertemuan.length - 1].name}</p>
-          <p>Hari: {dataPertemuan[dataPertemuan.length - 1].date}</p>
+          <p>
+            Pembahasan:{" "}
+            {isLoading
+              ? "Loading..."
+              : dataPertemuan[dataPertemuan.length - 1]?.name}
+          </p>
+          <p>
+            Hari:{" "}
+            {isLoading
+              ? "Loading..."
+              : new Date(dataPertemuan[dataPertemuan.length - 1]?.date)
+                  .toUTCString()
+                  .slice(5, 16)}
+          </p>
           <p>Jadwal: 14:00 - 16:00</p>
         </div>
         <div className="md:w-1/4 flex items-center justify-center">
