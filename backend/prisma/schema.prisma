@@ -21,10 +21,11 @@ model pertemuan {
 
 model user {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  img         String
+  img         String?
   kehadiran   Int
   name        String
+  password    String
   role        String
-  status      String
-  statusHadir String
+  status      String?
+  statusHadir String?
 }
