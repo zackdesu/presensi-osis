@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import prisma from "../../libs/prisma";
 
-const router: Router = Router();
+export const router: Router = Router();
 
 router.get("/datauser", async (req: Request, res: Response) => {
   const data: object[] = await prisma.user.findMany();
@@ -19,5 +19,3 @@ router.get("/dataagenda", async (req: Request, res: Response) => {
 
   res.status(200).json(data);
 });
-
-export default router;
