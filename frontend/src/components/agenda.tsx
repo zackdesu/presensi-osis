@@ -16,11 +16,11 @@ const Agenda = () => {
       })
       .catch((err) => console.log(err));
     return;
-  });
+  }, []);
 
   const Cards = ({ name, time }: { name: string; time: string }) => (
-    <div className="mb-4 grid grid-cols-[.8fr_minmax(100px,_1.8fr)_.7fr] grid-rows-2 grid-flow-col">
-      <AiOutlineCalendar className="row-span-2 self-center" size="2rem" />
+    <div className="mb-4 grid grid-cols-[.8fr_minmax(0px,_1.8fr)_.7fr] grid-rows-2 grid-flow-col">
+      <AiOutlineCalendar className="row-span-2 self-center lg:text-2xl" />
       <p className="col-span-1 truncate ...">{name}</p>
       <p className="opacity-70 col-span-1 flex items-center truncate ...">
         <AiOutlineClockCircle className="mr-2 lg:mr-4" /> {time}
