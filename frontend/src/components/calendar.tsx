@@ -11,9 +11,10 @@ const Calendar = () => (
     <h4>Kalender</h4>
     <h6 className="mb-2">{month}</h6>
     <div className="w-full grid grid-cols-7 place-items-center">
-      {dayName.map((m) => (
+      {dayName.map((m, i) => (
         <span
           className={`p-2 rounded-full ${m === toDayName && "bg-orange-500"}`}
+          key={i}
         >
           {m}
         </span>
