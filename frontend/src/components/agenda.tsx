@@ -1,20 +1,21 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { AiOutlineCalendar, AiOutlineClockCircle } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DataAgendaPertemuan } from "./type";
+import api from "../api/axios";
 const Agenda = () => {
   const [dataAgenda, setDataAgenda] = useState<DataAgendaPertemuan[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/dataagenda")
+    api
+      .get("/dataagenda")
       .then((res) => {
         setDataAgenda(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
+    return;
   });
 
   const Cards = ({ name, time }: { name: string; time: string }) => (

@@ -2,7 +2,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
 import { DataUser } from "./type";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios";
 
 const Cards = ({
   img,
@@ -38,13 +38,14 @@ const ProfileCard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/datauser")
+    api
+      .get("/datauser")
       .then((res) => {
         setDataUser(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
+    return;
   }, []);
 
   const sortedUser = dataUser.slice().sort((a, b) => {

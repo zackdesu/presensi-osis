@@ -2,7 +2,7 @@ import Header from "../components/header";
 import { dataUser } from "../components/data";
 import { useEffect, useState } from "react";
 import { DataAgendaPertemuan } from "../components/type";
-import axios from "axios";
+import api from "../api/axios";
 
 const Presensi = () => {
   const [dataPertemuan, setDataPertemuan] = useState<DataAgendaPertemuan[]>([]);
@@ -13,13 +13,14 @@ const Presensi = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/datapertemuan")
+    api
+      .get("/datapertemuan")
       .then((res) => {
         setDataPertemuan(res.data);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
+    return;
   }, []);
 
   useEffect(() => {

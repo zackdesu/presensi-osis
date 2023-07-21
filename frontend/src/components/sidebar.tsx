@@ -41,6 +41,8 @@ const SideBar = () => {
         return navigate("/login");
       })
       .catch((err) => console.log(err.response.data.message));
+
+    return;
   };
 
   return (
