@@ -7,69 +7,72 @@ import Gallery from "./pages/gallery";
 import Bantuan from "./pages/bantuan";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import HeaderProvider from "./api/headerContext";
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route
-          element={
-            <>
-              <SideBar />
-              <Home />
-            </>
-          }
-          path="/"
-        />
-        <Route
-          element={
-            <>
-              <SideBar /> <Presensi />{" "}
-            </>
-          }
-          path="/presensi"
-        />
-        <Route
-          element={
-            <>
-              <SideBar /> <Gallery />{" "}
-            </>
-          }
-          path="/galeri"
-        />
-        <Route
-          element={
-            <>
-              <SideBar /> <Tentang />
-            </>
-          }
-          path="/tentang"
-        />
-        <Route
-          element={
-            <>
-              <SideBar /> <Bantuan />
-            </>
-          }
-          path="/bantuan"
-        />
-        <Route
-          element={
-            <>
-              <Login />
-            </>
-          }
-          path="/login"
-        />
-        <Route
-          element={
-            <>
-              <Register />
-            </>
-          }
-          path="/Register"
-        />
-      </Routes>
+      <HeaderProvider>
+        <Routes>
+          <Route
+            element={
+              <>
+                <SideBar />
+                <Home />
+              </>
+            }
+            path="/"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <Presensi />{" "}
+              </>
+            }
+            path="/presensi"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <Gallery />{" "}
+              </>
+            }
+            path="/galeri"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <Tentang />
+              </>
+            }
+            path="/tentang"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <Bantuan />
+              </>
+            }
+            path="/bantuan"
+          />
+          <Route
+            element={
+              <>
+                <Login />
+              </>
+            }
+            path="/login"
+          />
+          <Route
+            element={
+              <>
+                <Register />
+              </>
+            }
+            path="/Register"
+          />
+        </Routes>
+      </HeaderProvider>
     </Router>
   );
 };
