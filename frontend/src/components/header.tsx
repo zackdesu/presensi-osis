@@ -19,11 +19,11 @@ const Header = () => {
         </div>
       </div>
 
-      <h6 className="my-1 col-start-3 md:col-start-4 lg:col-start-3 row-span-2 max-sm:col-span-2 col-span-1 md:col-span-2 md:col-end-11 self-center justify-self-end sm:place-self-center flex items-center justify-center rounded-xl bg-zinc-700 text-white p-2">
+      <h6 className="my-1 col-start-2 md:col-start-4 row-span-2 max-sm:col-span-2 col-span-1 md:col-span-2 md:col-end-11 self-center justify-self-end sm:place-self-center flex items-center justify-center rounded-xl bg-zinc-700 text-white p-2">
         <MdOutlineDateRange className="inline mr-3" /> {dateNow}
       </h6>
 
-      <h6 className="my-1 md:col-end-13 col-span-2 row-span-2 rounded-xl bg-zinc-700 text-white place-self-center p-2 hidden sm:flex items-center">
+      <h6 className="my-1 col-end-13 col-span-2 row-span-2 rounded-xl bg-zinc-700 text-white place-self-center p-2 hidden sm:flex items-center">
         {data && <img src={data.icon} width={18} className="mr-2" />}
         {data ? data.temp + "°C" : "Bad Network"}
       </h6>
