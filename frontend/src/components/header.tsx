@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { MdOutlineDateRange } from "react-icons/md";
 import { dateNow } from "./date";
 import axios from "axios";
+import api from "../api/axios";
+import { DataUser } from "./type";
+import { useNavigate } from "react-router-dom";
 
 type Weather = {
   main: {
@@ -16,6 +19,9 @@ type Weather = {
 
 const Header = () => {
   const [weather, setWeather] = useState<Weather>();
+  const [acc, setAcc] = useState<DataUser>();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -24,19 +30,31 @@ const Header = () => {
       .catch((res) => console.log(res.data.message));
   }, []);
 
+  useEffect(() => {
+    api
+      .get("/login")
+      .then((res) => setAcc(res.data))
+      .catch((err) => {
+        console.log(err.response.data.message);
+        return navigate("/login");
+      });
+  });
+
   const weatherIcons =
     import.meta.env.VITE_ICONS_WEATHER_API + weather?.weather[0].icon + ".png";
+
+  if (!acc) return;
 
   return (
     <header className="col-span-4 md:col-span-12 self-center px-3 lg:px-5 grid grid-cols-3 md:grid-cols-12 grid-rows-2 grid-flow-col">
       <div className="row-span-2 md:col-span-2 flex items-center">
         <img
-          src="/unnamed.png"
+          src={acc.img as string}
           className="rounded-full max-w-[35px] max-h-[35px] self-center row-span-2"
         />
         <div className="hidden sm:block">
-          <p className="ml-3">zackdesu</p>
-          <p className="ml-3 opacity-70">Administrator</p>
+          <p className="ml-3">{acc.name}</p>
+          <p className="ml-3 opacity-70">{acc.role}</p>
         </div>
       </div>
 
