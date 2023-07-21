@@ -1,60 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { MdOutlineDateRange } from "react-icons/md";
 import { dateNow } from "./date";
-import axios from "axios";
-import api from "../api/axios";
-import { DataUser } from "./type";
-import { useNavigate } from "react-router-dom";
-
-type Weather = {
-  main: {
-    temp: number;
-  };
-  weather: [
-    {
-      icon: string;
-    }
-  ];
-};
+import { HeaderContext } from "../api/headerContext";
 
 const Header = () => {
-  const [weather, setWeather] = useState<Weather>();
-  const [acc, setAcc] = useState<DataUser>();
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_WEATHER_API)
-      .then((res) => setWeather(res.data))
-      .catch((res) => console.log(res.data.message));
-  }, []);
-
-  useEffect(() => {
-    api
-      .get("/login")
-      .then((res) => setAcc(res.data))
-      .catch((err) => {
-        console.log(err.response.data.message);
-        return navigate("/login");
-      });
-  });
-
-  const weatherIcons =
-    import.meta.env.VITE_ICONS_WEATHER_API + weather?.weather[0].icon + ".png";
-
-  if (!acc) return;
+  const data = useContext(HeaderContext);
 
   return (
     <header className="col-span-4 md:col-span-12 self-center px-3 lg:px-5 grid grid-cols-3 md:grid-cols-12 grid-rows-2 grid-flow-col">
       <div className="row-span-2 md:col-span-2 flex items-center">
         <img
-          src={acc.img as string}
+          src={data.img as string}
           className="rounded-full max-w-[35px] max-h-[35px] self-center row-span-2"
         />
         <div className="hidden sm:block">
-          <p className="ml-3">{acc.name}</p>
-          <p className="ml-3 opacity-70">{acc.role}</p>
+          <p className="ml-3">{data.name}</p>
+          <p className="ml-3 opacity-70">{data.role}</p>
         </div>
       </div>
 
@@ -63,8 +24,8 @@ const Header = () => {
       </h6>
 
       <h6 className="my-1 md:col-end-13 col-span-2 row-span-2 rounded-xl bg-zinc-700 text-white place-self-center p-2 hidden sm:flex items-center">
-        {weather && <img src={weatherIcons} width={18} className="mr-2" />}
-        {weather ? weather.main.temp + "°C" : "Bad Network"}
+        {data && <img src={data.icon} width={18} className="mr-2" />}
+        {data ? data.temp + "°C" : "Bad Network"}
       </h6>
     </header>
   );
