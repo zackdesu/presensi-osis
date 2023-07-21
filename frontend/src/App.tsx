@@ -69,7 +69,7 @@ const App = () => {
                 <Register />
               </>
             }
-            path="/Register"
+            path="/register"
           />
         </Routes>
       </HeaderProvider>
