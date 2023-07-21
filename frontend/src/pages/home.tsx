@@ -17,10 +17,10 @@ const Home = () => {
       <aside className="hidden sm:flex sm:col-span-2 md:col-span-6 lg:col-span-4 row-span-3 md:col-end-13 md:row-span-3 bg-zinc-950 rounded-xl px-5 py-1 flex-col items-center">
         <Calendar />
       </aside>
-      <section className="bg-zinc-950 col-span-3 row-span-2 sm:col-span-2 md:col-span-5 md:row-span-2 lg:col-span-3 lg:row-span-5 rounded-xl flex flex-col items-center p-5">
+      <section className="bg-zinc-950 col-span-4 row-span-2 sm:col-span-2 md:col-span-5 md:row-span-2 lg:col-span-3 lg:row-span-5 rounded-xl flex flex-col items-center p-5">
         <ProfileCard />
       </section>
-      <section className="bg-zinc-950 row-span-2 sm:col-span-2 sm:row-span-3 md:col-span-7 md:row-span-1 lg:row-span-2 lg:col-span-9 rounded-xl">
+      <section className="bg-zinc-950 row-span-2 max-sm:hidden sm:col-span-2 sm:row-span-3 md:col-span-7 md:row-span-1 lg:row-span-2 lg:col-span-9 rounded-xl">
         <img
           src="/jansen.jpg"
           className="object-cover rounded-xl object-center w-full h-full"
