@@ -1,10 +1,12 @@
 export type DataUser = {
-  name: string;
-  role: "Administrator" | "Moderator" | "Member";
-  img: string;
-  status: "Online" | "Offline";
+  id: string;
+  img: string | null | undefined;
   kehadiran: number;
-  statusHadir: "Hadir" | "Belum Melakukan Presensi";
+  name: string;
+  password: string;
+  role: "Administrator" | "Moderator" | "Member" | string;
+  status: "Online" | "Offline" | string | null;
+  statusHadir: "Hadir" | "Belum Melakukan Presensi" | string | null;
 };
 
 export type DataAgendaPertemuan = {
