@@ -6,10 +6,12 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import { TfiGallery } from "react-icons/tfi";
 import { BiSolidHelpCircle } from "react-icons/bi";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import api from "../api/axios";
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
 
@@ -31,6 +33,16 @@ const SideBar = () => {
     );
   };
 
+  const handleLogout = () => {
+    api
+      .post("/logout")
+      .then((res) => {
+        console.log(res.data);
+        return navigate("/login");
+      })
+      .catch((err) => console.log(err.response.data.message));
+  };
+
   return (
     <div className="fixed z-50 left-0 top-0 bottom-0 w-20 xl:hover:w-2/12 h-full p-5 bg-zinc-900 flex flex-col items-center transition-all group">
       <img src="/osis.svg" alt="osissmkn1dumai" className="max-w-[50px]" />
@@ -44,7 +56,11 @@ const SideBar = () => {
           <SetIcon name="Bantuan" icon={BiSolidHelpCircle} />
         </div>
         <div>
-          <TbLogout2 size="1.6rem" className="cursor-pointer text-white" />
+          <TbLogout2
+            size="1.6rem"
+            className="cursor-pointer text-white"
+            onClick={handleLogout}
+          />
         </div>
       </div>
     </div>
