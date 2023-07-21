@@ -46,6 +46,9 @@ router.post(
   async (req: Request, res: Response) => {
     const { name, password }: UserData = req.body;
 
+    if (!name || !password)
+      return res.status(403).json({ message: "Masukkan data yang lengkap!" });
+
     const isDuplicate = await prisma.user.findFirst({
       where: {
         name,
@@ -78,6 +81,9 @@ router.post(
   isUserNotAuthenticated,
   async (req: Request, res: Response) => {
     const { name, password }: UserData = req.body;
+
+    if (!name || !password)
+      return res.status(403).json({ message: "Masukkan data yang lengkap!" });
 
     const user = await prisma.user.findFirst({
       where: {
