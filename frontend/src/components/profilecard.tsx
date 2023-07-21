@@ -62,7 +62,12 @@ const ProfileCard = () => {
         {isLoading
           ? "Loading..."
           : sortedUser.map((e, i) => (
-              <Cards name={e.name} img={e.img} status={e.status} key={i} />
+              <Cards
+                name={e.name}
+                img={e.img as string}
+                status={e.status as string}
+                key={i}
+              />
             ))}
       </div>
     </>
