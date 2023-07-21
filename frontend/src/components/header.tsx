@@ -8,13 +8,13 @@ const Header = () => {
 
   return (
     <header className="col-span-4 md:col-span-12 self-center px-3 lg:px-5 grid grid-cols-3 md:grid-cols-12 grid-rows-2 grid-flow-col">
-      <div className="row-span-2 md:col-span-2 flex items-center">
+      <div className="row-span-2 md:col-span-3 flex items-center">
         <img
           src={data.img as string}
           className="rounded-full max-w-[35px] max-h-[35px] self-center row-span-2"
         />
         <div className="hidden sm:block">
-          <p className="ml-3">{data.name}</p>
+          <p className="ml-3 truncate">{data.name}</p>
           <p className="ml-3 opacity-70">{data.role}</p>
         </div>
       </div>
