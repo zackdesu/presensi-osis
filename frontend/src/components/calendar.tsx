@@ -13,7 +13,9 @@ const Calendar = () => (
     <div className="w-full grid grid-cols-7 place-items-center">
       {dayName.map((m, i) => (
         <span
-          className={`p-2 rounded-full ${m === toDayName && "bg-orange-500"}`}
+          className={`p-2 text-[.7rem] rounded-full ${
+            m === toDayName && "bg-orange-500"
+          }`}
           key={i}
         >
           {m}
