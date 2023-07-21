@@ -3,7 +3,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 import api from "./axios";
 import { DataUser } from "../components/type";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export type TypeHeaderContext = {
   name: string;
@@ -36,7 +36,12 @@ const HeaderProvider = ({ children }: { children: ReactNode }) => {
   const [weather, setWeather] = useState<Weather>();
   const [acc, setAcc] = useState<DataUser>();
 
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const path = (pathName: string) => {
+    return location.pathname === pathName;
+  };
 
   useEffect(() => {
     axios
@@ -46,13 +51,22 @@ const HeaderProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    api
-      .get("/login")
-      .then((res) => setAcc(res.data))
-      .catch((err) => {
-        console.log(err.response.data.message);
-        return navigate("/login");
-      });
+    if (
+      path("/") ||
+      path("/presensi") ||
+      path("/galeri") ||
+      path("/tentang") ||
+      path("/bantuan")
+    ) {
+      api
+        .get("/login")
+        .then((res) => setAcc(res.data))
+        .catch((err) => {
+          console.log(err.response.data.message);
+          return navigate("/login");
+        });
+    }
+    return;
   }, [navigate]);
 
   const icon =
