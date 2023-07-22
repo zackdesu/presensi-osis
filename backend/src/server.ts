@@ -5,11 +5,15 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import { Attendance } from "./type/attendance";
 
+// Auth
 import { router as getRouter } from "./route/auth/get";
 import { router as postRouter } from "./route/auth/post";
 import { router as putRouter } from "./route/auth/put";
 import { router as deleteRouter } from "./route/auth/delete";
 import { router as dataRouter } from "./route/data";
+
+// Meeting
+import { router as meetingRouter } from "./route/meeting/meeting";
 
 export const app: Express = express();
 const port: number = 3000;
@@ -82,6 +86,7 @@ app.use(getRouter);
 app.use(postRouter);
 app.use(putRouter);
 app.use(deleteRouter);
+app.use(meetingRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is online...");
