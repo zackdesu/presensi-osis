@@ -27,7 +27,7 @@ router.get(
       database: user,
     };
 
-    res.send(data);
+    res.status(200).json(data);
   }
 );
 
@@ -44,7 +44,10 @@ router.get(
     });
 
     const time = attendance?.timestamp.getTime();
-    if (!time) return res.send("Kamu bisa melakukan presensi sekarang");
+    if (!time)
+      return res
+        .status(200)
+        .json({ message: "Kamu bisa melakukan presensi sekarang" });
 
     const attendanceTime = Date.now() - time;
 
@@ -68,15 +71,13 @@ router.get(
       });
 
       console.log(deleteAttendance);
-      return res.send("Kamu bisa melakukan presensi sekarang 2");
+      return res
+        .status(200)
+        .json({ message: "Kamu bisa melakukan presensi sekarang" });
     }
 
     req.session.user.hadir = true;
 
-    return res.send(req.session.user);
+    return res.status(200).json({ message: "Berhasil melakukan absensi" });
   }
 );
-
-router.get("/abc", (req: Request, res: Response) => {
-  res.send("def");
-});
