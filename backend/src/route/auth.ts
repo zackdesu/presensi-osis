@@ -4,6 +4,12 @@ import bcrypt from "bcryptjs";
 
 export const router: Router = Router();
 
+type Attendance = {
+  id?: string;
+  userId?: string | null;
+  timestamp?: Date | null;
+};
+
 declare module "express-session" {
   interface SessionData {
     user: {
@@ -14,7 +20,8 @@ declare module "express-session" {
       password: string;
       role: "Administrator" | "Moderator" | "Member" | string;
       status: "Online" | "Offline" | string | null;
-      statusHadir: "Hadir" | "Belum Melakukan Presensi" | string | null;
+      statusHadir?: Attendance[];
+      hadir?: boolean;
     };
   }
 }
@@ -68,7 +75,6 @@ router.post(
         role: "Member",
         kehadiran: 0,
         status: "Online",
-        statusHadir: "Belum Melakukan Presensi",
       },
     });
 
@@ -99,10 +105,18 @@ router.post(
     if (!checkPassword)
       return res.status(404).json({ message: "Password salah!" });
 
+    const attendanceFind = await prisma.attendance.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+
     req.session.regenerate((err) => {
       if (err) return res.status(500).json({ message: err });
 
       req.session.user = user;
+
+      if (attendanceFind) req.session.user.hadir = true;
 
       req.session.save((err) => {
         if (err) return res.status(500).json({ message: err });
@@ -114,10 +128,6 @@ router.post(
     });
   }
 );
-
-router.get("/login", isUserAuthenticated, (req: Request, res: Response) => {
-  res.send(req.session.user);
-});
 
 router.post(
   "/logout",
@@ -233,5 +243,134 @@ router.delete(
           "Berhasil menghapus akun, terimakasih sudah menggunakan kami!.",
       });
     });
+  }
+);
+
+router.get(
+  "/login",
+  isUserAuthenticated,
+  async (req: Request, res: Response) => {
+    if (!req.session.user) return;
+    const user = await prisma.user.findFirst({
+      where: {
+        name: req.session.user.name,
+      },
+      include: {
+        statusHadir: {
+          select: {
+            id: true,
+            user: true,
+          },
+        },
+      },
+    });
+    const data = {
+      session: req.session.user,
+      database: user,
+    };
+
+    res.send(data);
+  }
+);
+
+router.get(
+  "/checkTime",
+  isUserAuthenticated,
+  async (req: Request, res: Response) => {
+    if (!req.session.user) return;
+
+    const attendance = await prisma.attendance.findFirst({
+      where: {
+        userId: req.session.user.id,
+      },
+    });
+
+    const time = attendance?.timestamp.getTime();
+    if (!time) return res.send("Kamu bisa melakukan presensi sekarang");
+
+    const attendanceTime = Date.now() - time;
+
+    console.log(attendanceTime / 1000 / 60);
+
+    if (attendanceTime >= 1000 * 20) {
+      req.session.user.hadir = false;
+
+      const existingAttendance = await prisma.attendance.findFirst({
+        where: {
+          userId: req.session.user.id,
+        },
+      });
+
+      if (!existingAttendance) return;
+
+      const deleteAttendance = await prisma.attendance.delete({
+        where: {
+          id: existingAttendance.id,
+        },
+      });
+
+      console.log(deleteAttendance);
+      return res.send("Kamu bisa melakukan presensi sekarang 2");
+    }
+
+    req.session.user.hadir = true;
+
+    return res.send(req.session.user);
+  }
+);
+
+router.post(
+  "/presensi",
+  isUserAuthenticated,
+  async (req: Request, res: Response) => {
+    if (!req.session.user) return;
+
+    if (req.session.user.hadir)
+      return res
+        .status(403)
+        .json({ message: "Kamu sudah absen hari ini, coba lagi nanti." });
+
+    const attendanceCreate = await prisma.attendance.create({
+      data: {
+        userId: req.session.user.id,
+        timestamp: new Date(),
+      },
+    });
+
+    req.session.user.hadir = true;
+    req.session.user.kehadiran += 1;
+
+    const updateKehadiran = await prisma.user.update({
+      where: {
+        id: req.session.user.id,
+      },
+      data: {
+        kehadiran: req.session.user.kehadiran,
+      },
+    });
+
+    return res.send(updateKehadiran);
+  }
+);
+
+router.delete(
+  "/presensi",
+  isUserAuthenticated,
+  async (req: Request, res: Response) => {
+    if (!req.session.user) return;
+
+    if (!req.session.user.statusHadir) return;
+
+    console.log(req.session.user.statusHadir[0].id);
+
+    // const deleteAttendance = await prisma.attendance.delete({
+    //   where: {
+    //     id: req.session.user.statusHadir![0].id!,
+    //   },
+    // });
+
+    // req.session.user.statusHadir = [];
+
+    // console.log(deleteAttendance);
   }
 );
