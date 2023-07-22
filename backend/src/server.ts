@@ -23,9 +23,10 @@ const sessConfig = {
     secure: false,
     sameSite: false as SameSite,
   },
-  sessionStorage: MongoStore.create({
+  store: MongoStore.create({
     mongoUrl: process.env.DATABASE_URL,
     ttl: 60 * 60 * 24 * 3,
+    stringify: false,
   }),
 };
 
@@ -46,10 +47,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       res.setHeader("Access-Control-Allow-Origin", origin);
     }
   }
-  // res.setHeader(
-  //   "Access-Control-Allow-Origin",
-  //   "http://localhost:5173, https://voting-web-mu.vercel.app"
-  // );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
