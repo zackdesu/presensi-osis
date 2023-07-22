@@ -1,10 +1,15 @@
 require("dotenv").config();
 
 import express, { Express, NextFunction, Request, Response } from "express";
-import { router as dataRouter } from "./route/data";
-import { router as authRouter } from "./route/auth";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { Attendance } from "./type/attendance";
+
+import { router as getRouter } from "./route/auth/get";
+import { router as postRouter } from "./route/auth/post";
+import { router as putRouter } from "./route/auth/put";
+import { router as deleteRouter } from "./route/auth/delete";
+import { router as dataRouter } from "./route/data";
 
 export const app: Express = express();
 const port: number = 3000;
@@ -56,8 +61,27 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   return next();
 });
 
-app.use(authRouter);
+declare module "express-session" {
+  interface SessionData {
+    user: {
+      id: string;
+      img: string | null;
+      kehadiran: number;
+      name: string;
+      password: string;
+      role: "Administrator" | "Moderator" | "Member" | string;
+      status: "Online" | "Offline" | string | null;
+      statusHadir?: Attendance[];
+      hadir?: boolean;
+    };
+  }
+}
+
 app.use(dataRouter);
+app.use(getRouter);
+app.use(postRouter);
+app.use(putRouter);
+app.use(deleteRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is online...");
