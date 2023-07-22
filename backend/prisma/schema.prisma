@@ -15,8 +15,10 @@ model agenda {
 
 model pertemuan {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
-  date DateTime @db.Date
+  endTime DateTime @db.Date
   name String
+  location String?
+  startTime DateTime @db.Date
 }
 
 model user {
