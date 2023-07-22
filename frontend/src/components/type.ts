@@ -6,7 +6,7 @@ export type DataUser = {
   password: string;
   role: "Administrator" | "Moderator" | "Member" | string;
   status: "Online" | "Offline" | string | null;
-  statusHadir: "Hadir" | "Belum Melakukan Presensi" | string | null;
+  hadir: boolean;
 };
 
 export type DataAgendaPertemuan = {
