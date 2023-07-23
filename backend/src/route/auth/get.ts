@@ -48,34 +48,8 @@ router.get(
         },
       });
 
-      const time = attendance?.timestamp.getTime();
-      if (!time)
-        return res
-          .status(200)
-          .json({ message: "Kamu bisa melakukan presensi sekarang" });
-
-      const attendanceTime = Date.now() - time;
-
-      console.log(attendanceTime / 1000 / 60);
-
-      if (attendanceTime >= 1000 * 20) {
+      if (!attendance) {
         req.session.user.hadir = false;
-
-        const existingAttendance = await prisma.attendance.findFirst({
-          where: {
-            userId: req.session.user.id,
-          },
-        });
-
-        if (!existingAttendance) return;
-
-        const deleteAttendance = await prisma.attendance.delete({
-          where: {
-            id: existingAttendance.id,
-          },
-        });
-
-        console.log(deleteAttendance);
         return res
           .status(200)
           .json({ message: "Kamu bisa melakukan presensi sekarang" });
@@ -83,7 +57,7 @@ router.get(
 
       req.session.user.hadir = true;
 
-      return res.status(200).json({ message: "Berhasil melakukan absensi" });
+      return res.status(200);
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
