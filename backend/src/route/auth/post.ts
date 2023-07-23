@@ -125,10 +125,40 @@ router.post(
     try {
       if (!req.session.user) return;
 
+      const findMeeting = await prisma.pertemuan.findMany({
+        orderBy: {
+          startTime: "asc",
+        },
+        where: {
+          endTime: {
+            gte: new Date(),
+          },
+        },
+      });
+
+      console.log(findMeeting);
+
+      if (findMeeting.length === 0)
+        return res.status(404).json({
+          message: "Pertemuan berikutnya belum ditentukan, coba lagi nanti.",
+        });
+
+      const nextMeetingStarts = findMeeting[0].startTime.getTime();
+
+      const diff = nextMeetingStarts - Date.now();
+
+      if (Date.now() <= nextMeetingStarts)
+        return res.status(403).json({
+          message: `Pertemuan belum dimulai, tunggu ${Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          )} jam ${Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))} menit`,
+        });
+
       if (req.session.user.hadir)
-        return res
-          .status(403)
-          .json({ message: "Kamu sudah absen hari ini, coba lagi nanti." });
+        return res.status(403).json({
+          message:
+            "Kamu sudah melakukan dipertemuan ini, coba lagi setelah meeting dibuat.",
+        });
 
       const attendanceCreate = await prisma.attendance.create({
         data: {
@@ -137,19 +167,21 @@ router.post(
         },
       });
 
+      if (!attendanceCreate) throw new Error("Failed to create attendance!");
+
       req.session.user.hadir = true;
       req.session.user.kehadiran += 1;
 
-      const updateKehadiran = await prisma.user.update({
+      await prisma.user.update({
         where: {
-          id: req.session.user.id,
+          id: attendanceCreate.userId as string,
         },
         data: {
           kehadiran: req.session.user.kehadiran,
         },
       });
 
-      return res.send(updateKehadiran);
+      return res.status(200).json({ message: "Berhasil melakukan presensi!" });
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
