@@ -1,26 +1,41 @@
 import Header from "../components/header";
 import { dataUser } from "../components/data";
 import { useEffect, useState } from "react";
-import { DataAgendaPertemuan, DataUser } from "../components/type";
+import { DataPertemuan, DataUser } from "../components/type";
 import api from "../api/axios";
 
 const Presensi = () => {
-  const [dataPertemuan, setDataPertemuan] = useState<DataAgendaPertemuan[]>([]);
-  const [hadir, setHadir] = useState<boolean>(false);
+  const [semuaDataPertemuan, setSemuaDataPertemuan] = useState<DataPertemuan[]>(
+    []
+  );
+  const [dataPertemuan, setDataPertemuan] = useState<DataPertemuan>();
   const [user, setUser] = useState<DataUser>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     api
-      .get("/datapertemuan")
+      .get("/login")
+      .then((res) => setUser(res.data.session))
+      .catch((err) => console.log(err));
+  }, [user]);
+
+  useEffect(() => {
+    api
+      .get("/dataPertemuan")
       .then((res) => {
         setDataPertemuan(res.data);
       })
       .catch((err) => console.log(err));
 
+    return;
+  }, [dataPertemuan]);
+
+  useEffect(() => {
     api
-      .get("/login")
-      .then((res) => setUser(res.data))
+      .get("/semuadatapertemuan")
+      .then((res) => {
+        setSemuaDataPertemuan(res.data);
+      })
       .catch((err) => console.log(err));
 
     setIsLoading(false);
@@ -29,11 +44,18 @@ const Presensi = () => {
   }, []);
 
   useEffect(() => {
-    if (!hadir) return;
-    dataUser[0].statusHadir = "Hadir";
-    console.log(dataUser[0].statusHadir);
-    console.log(dataUser[0].kehadiran);
-  }, [hadir, setHadir]);
+    api
+      .get("/checkTime")
+      .then((res) => console.log(res.data.message))
+      .catch((err) => console.error(err.response.data.message));
+  }, []);
+
+  const handlePresensi = () => {
+    api
+      .post("/presensi")
+      .then((res) => console.log(res.data))
+      .catch((err) => console.error(err.response.data.message));
+  };
 
   return (
     <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-20">
@@ -44,7 +66,7 @@ const Presensi = () => {
           {isLoading
             ? 0
             : Math.round(
-                (user ? user.kehadiran / dataPertemuan.length : 0) * 100
+                (user ? user.kehadiran / semuaDataPertemuan.length : 0) * 100
               )}
           %
         </h2>
@@ -52,7 +74,7 @@ const Presensi = () => {
           {isLoading
             ? "Loading..."
             : `${user && user.kehadiran} dari ${
-                dataPertemuan.length
+                semuaDataPertemuan.length
               } pertemuan`}
         </p>
       </section>
@@ -66,33 +88,55 @@ const Presensi = () => {
         <p className="ml-2 md:ml-5">{user && (user.role as string)}</p>
       </section>
       <section className="bg-zinc-950 rounded-xl flex col-span-full md:col-span-7 items-center justify-center">
-        <h6>Status Presensi:&nbsp;</h6> <p>{user && user.hadir}</p>
+        <h6>Status Presensi:&nbsp;</h6>{" "}
+        <p>{user && user.hadir ? "Sudah Presensi" : "Belum Presensi"}</p>
       </section>
       <section className="bg-zinc-950 rounded-xl flex flex-col md:flex-row col-span-full row-span-3 items-center justify-center">
         <div className="md:w-3/4 flex flex-col items-center justify-center">
-          <h4 className="mb-2">Pertemuan ke - {dataPertemuan.length}</h4>
+          <h4 className="mb-2">Pertemuan ke - {semuaDataPertemuan.length}</h4>
           <p>
             Pembahasan:{" "}
             {isLoading
               ? "Loading..."
-              : dataPertemuan[dataPertemuan.length - 1]?.name}
+              : dataPertemuan
+              ? dataPertemuan.name
+              : semuaDataPertemuan[semuaDataPertemuan.length - 1]?.name}
           </p>
           <p>
             Hari:{" "}
             {isLoading
               ? "Loading..."
-              : new Date(dataPertemuan[dataPertemuan.length - 1]?.date)
+              : dataPertemuan
+              ? new Date(dataPertemuan.startTime).toUTCString().slice(5, 16)
+              : new Date(
+                  semuaDataPertemuan[semuaDataPertemuan.length - 1]?.startTime
+                )
                   .toUTCString()
                   .slice(5, 16)}
           </p>
-          <p>Jadwal: 14:00 - 16:00</p>
+          <p>
+            Jadwal:{" "}
+            {dataPertemuan
+              ? new Date(dataPertemuan.startTime).toTimeString().slice(0, 5)
+              : new Date(
+                  semuaDataPertemuan[semuaDataPertemuan.length - 1]?.startTime
+                )
+                  .toTimeString()
+                  .slice(0, 5)}{" "}
+            -{" "}
+            {dataPertemuan
+              ? new Date(dataPertemuan.endTime).toTimeString().slice(0, 5)
+              : new Date(
+                  semuaDataPertemuan[semuaDataPertemuan.length - 1]?.endTime
+                )
+                  .toTimeString()
+                  .slice(0, 5)}
+          </p>
         </div>
         <div className="md:w-1/4 flex items-center justify-center">
           <button
             className="py-2 px-5 m-4 bg-green-500 rounded-xl"
-            onClick={() => {
-              setHadir(true);
-            }}
+            onClick={handlePresensi}
           >
             <p>Presensi Disini</p>
           </button>
