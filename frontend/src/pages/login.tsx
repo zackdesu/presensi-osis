@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import api from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Login = () => {
         console.log(res.data);
         navigate("/");
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err) => toast.error(err.response.data.message));
 
     return;
   };
