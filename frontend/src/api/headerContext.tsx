@@ -1,4 +1,3 @@
-// headerContext.tsx
 import { createContext, ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 import api from "./axios";
@@ -51,22 +50,14 @@ const HeaderProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (
-      path("/") ||
-      path("/presensi") ||
-      path("/galeri") ||
-      path("/tentang") ||
-      path("/bantuan")
-    ) {
-      api
-        .get("/login")
-        .then((res) => setAcc(res.data))
-        .catch((err) => {
-          console.log(err.response.data.message);
-          return navigate("/login");
-        });
-    }
-    return;
+    if (path("/login") || path("/register")) return;
+    api
+      .get("/login")
+      .then((res) => res.data && setAcc(res.data.session))
+      .catch((err) => {
+        console.log(err.response.data.message);
+        return navigate("/login");
+      });
   }, [navigate]);
 
   const icon =
