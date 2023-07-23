@@ -8,6 +8,7 @@ import Bantuan from "./pages/bantuan";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import HeaderProvider from "./api/headerContext";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
             element={
               <>
                 <SideBar />
-                <Home />
+                <Home /> <Toaster />
               </>
             }
             path="/"
@@ -26,7 +27,7 @@ const App = () => {
           <Route
             element={
               <>
-                <SideBar /> <Presensi />{" "}
+                <SideBar /> <Presensi /> <Toaster />{" "}
               </>
             }
             path="/presensi"
@@ -34,7 +35,7 @@ const App = () => {
           <Route
             element={
               <>
-                <SideBar /> <Gallery />{" "}
+                <SideBar /> <Gallery /> <Toaster />{" "}
               </>
             }
             path="/galeri"
@@ -42,7 +43,7 @@ const App = () => {
           <Route
             element={
               <>
-                <SideBar /> <Tentang />
+                <SideBar /> <Tentang /> <Toaster />
               </>
             }
             path="/tentang"
@@ -50,7 +51,7 @@ const App = () => {
           <Route
             element={
               <>
-                <SideBar /> <Bantuan />
+                <SideBar /> <Bantuan /> <Toaster />
               </>
             }
             path="/bantuan"
@@ -58,7 +59,7 @@ const App = () => {
           <Route
             element={
               <>
-                <Login />
+                <Login /> <Toaster />
               </>
             }
             path="/login"
@@ -66,7 +67,7 @@ const App = () => {
           <Route
             element={
               <>
-                <Register />
+                <Register /> <Toaster />
               </>
             }
             path="/register"
