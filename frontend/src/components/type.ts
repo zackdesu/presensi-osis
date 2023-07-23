@@ -9,7 +9,14 @@ export type DataUser = {
   hadir: boolean;
 };
 
-export type DataAgendaPertemuan = {
+export type DataAgenda = {
   name: string;
   date: Date;
+};
+
+export type DataPertemuan = {
+  name: string;
+  startTime: Date;
+  endTime: Date;
+  location: string;
 };

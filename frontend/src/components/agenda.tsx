@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { AiOutlineCalendar, AiOutlineClockCircle } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { DataAgendaPertemuan } from "./type";
+import { DataAgenda } from "./type";
 import api from "../api/axios";
 const Agenda = () => {
-  const [dataAgenda, setDataAgenda] = useState<DataAgendaPertemuan[]>([]);
+  const [dataAgenda, setDataAgenda] = useState<DataAgenda[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
