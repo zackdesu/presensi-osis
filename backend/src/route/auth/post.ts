@@ -123,6 +123,8 @@ router.post(
   isUserAuthenticated,
   async (req: Request, res: Response) => {
     try {
+      const { password } = req.body;
+
       if (!req.session.user) return;
 
       const findMeeting = await prisma.pertemuan.findMany({
@@ -135,8 +137,6 @@ router.post(
           },
         },
       });
-
-      console.log(findMeeting);
 
       if (findMeeting.length === 0)
         return res.status(404).json({
@@ -160,6 +160,16 @@ router.post(
             "Kamu sudah melakukan dipertemuan ini, coba lagi setelah meeting dibuat.",
         });
 
+      if (!password)
+        return res.status(403).json({
+          message: "Masukkan password meeting!",
+        });
+
+      if (password !== findMeeting[0].password)
+        return res.status(403).json({
+          message: "Password meeting salah!",
+        });
+
       const attendanceCreate = await prisma.attendance.create({
         data: {
           userId: req.session.user.id,
@@ -169,17 +179,25 @@ router.post(
 
       if (!attendanceCreate) throw new Error("Failed to create attendance!");
 
-      req.session.user.hadir = true;
       req.session.user.kehadiran += 1;
 
-      await prisma.user.update({
+      const updateKehadiran = await prisma.user.update({
         where: {
           id: attendanceCreate.userId as string,
         },
         data: {
           kehadiran: req.session.user.kehadiran,
+          pertemuanDihadiri: {
+            connect: {
+              id: findMeeting[0].id as string,
+            },
+          },
         },
       });
+
+      req.session.user.hadir = true;
+
+      console.log(updateKehadiran);
 
       return res.status(200).json({ message: "Berhasil melakukan presensi!" });
     } catch (error) {
