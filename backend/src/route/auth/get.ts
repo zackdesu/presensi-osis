@@ -52,7 +52,7 @@ router.get(
         req.session.user.hadir = false;
         return res
           .status(200)
-          .json({ message: "Kamu bisa melakukan presensi sekarang" });
+          .json({ message: "Kamu bisa melakukan presensi" });
       }
 
       req.session.user.hadir = true;
