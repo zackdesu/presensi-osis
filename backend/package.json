@@ -7,8 +7,10 @@
     "dev": "ts-node-dev ./src/server.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "zackdesu"
+  },
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "@types/express": "^4.17.17",
@@ -24,5 +26,13 @@
     "prisma": "^5.0.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
+  },
+  "homepage": "https://github.com/zackdesu/presensi-osis#readme",
+  "bugs": {
+    "url": "https://github.com/zackdesu/presensi-osis/issues"
+  },
+  "repository": {
+    "url": "https://github.com/zackdesu/presensi-osis",
+    "type": "git"
   }
 }

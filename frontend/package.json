@@ -2,6 +2,7 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
+  "author": "zackdesu",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -33,5 +34,13 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.0"
+  },
+  "homepage": "https://github.com/zackdesu/presensi-osis#readme",
+  "bugs": {
+    "url": "https://github.com/zackdesu/presensi-osis/issues"
+  },
+  "repository": {
+    "url": "https://github.com/zackdesu/presensi-osis",
+    "type": "git"
   }
 }
