@@ -19,6 +19,9 @@ model pertemuan {
   name String
   location String?
   startTime DateTime @db.Date
+  password String
+  userId String[] @db.ObjectId
+  users user[] @relation(fields: [userId], references: [id])
 }
 
 model user {
@@ -28,6 +31,8 @@ model user {
   name        String
   password    String
   role        String
+  pertemuanDihadiriId String[] @db.ObjectId
+  pertemuanDihadiri pertemuan[] @relation(fields: [pertemuanDihadiriId], references: [id])
   status      String?
   statusHadir attendance[]
 }
