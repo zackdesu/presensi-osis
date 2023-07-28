@@ -95,9 +95,9 @@ router.post(
     try {
       if (!req.session.user) return;
 
-      const { name, startTime, endTime, location } = req.body;
+      const { name, startTime, endTime, location, password } = req.body;
 
-      if (!name || !startTime || !endTime)
+      if (!name || !startTime || !endTime || !password)
         return res.status(403).json({ message: "Masukkan data yang lengkap" });
 
       const createPertemuan = await prisma.pertemuan.create({
@@ -106,6 +106,7 @@ router.post(
           startTime,
           endTime,
           location,
+          password,
         },
       });
 
@@ -129,8 +130,48 @@ router.delete(
           id,
         },
       });
+
       if (!deletePertemuan)
         throw res.status(404).json({ message: "Data tidak ditemukan" });
+
+      const attendCheck = await prisma.attendance.findMany();
+
+      for (const attendUser of attendCheck) {
+        console.log(attendUser);
+
+        const id = attendUser.userId;
+
+        if (!id) throw new Error("ID not found in attendUser");
+
+        const findUsers = await prisma.user.findMany({
+          where: {
+            id,
+            kehadiran: {
+              gte: 1,
+            },
+          },
+        });
+
+        for (const moreThanOne of findUsers) {
+          const dihadiri = moreThanOne.pertemuanDihadiriId.filter(
+            (item) => item !== deletePertemuan.id
+          );
+
+          const decrement = await prisma.user.update({
+            where: {
+              id: moreThanOne.id,
+            },
+            data: {
+              kehadiran: {
+                decrement: 1,
+              },
+              pertemuanDihadiriId: dihadiri,
+            },
+          });
+
+          console.log(decrement);
+        }
+      }
 
       return res.status(200).json(deletePertemuan);
     } catch (error) {
