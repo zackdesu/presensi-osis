@@ -1,8 +1,8 @@
 import Header from "../components/header";
-import { dataUser } from "../components/data";
 import { useEffect, useState } from "react";
 import { DataPertemuan, DataUser } from "../components/type";
 import api from "../api/axios";
+import toast from "react-hot-toast";
 
 const Presensi = () => {
   const [semuaDataPertemuan, setSemuaDataPertemuan] = useState<DataPertemuan[]>(
@@ -25,7 +25,7 @@ const Presensi = () => {
       .then((res) => {
         setDataPertemuan(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response.data.message));
 
     return;
   }, [dataPertemuan]);
@@ -53,8 +53,11 @@ const Presensi = () => {
   const handlePresensi = () => {
     api
       .post("/presensi")
-      .then((res) => console.log(res.data))
-      .catch((err) => console.error(err.response.data.message));
+      .then((res) => toast.success(res.data.message))
+      .catch((err) => {
+        console.error(err.response.data.message);
+        toast.error("Waktu presensi habis!");
+      });
   };
 
   return (
