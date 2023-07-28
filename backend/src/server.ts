@@ -77,6 +77,7 @@ declare module "express-session" {
       status: "Online" | "Offline" | string | null;
       statusHadir?: Attendance[];
       hadir?: boolean;
+      pertemuanDihadiri?: [{ id: string }];
     };
   }
 }
