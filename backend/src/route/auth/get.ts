@@ -55,9 +55,19 @@ router.get(
           .json({ message: "Kamu bisa melakukan presensi" });
       }
 
-      req.session.user.hadir = true;
+      const user = await prisma.user.findFirst({
+        where: {
+          id: req.session.user.id,
+        },
+      });
+      if (!user) throw new Error("User dengan id session ini tidak ditemukan!");
 
-      return res.status(200);
+      req.session.user.hadir = true;
+      req.session.user.kehadiran = user.kehadiran;
+
+      console.log(req.session.user);
+
+      return res.status(200).json({ message: "Berhasil update" });
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
