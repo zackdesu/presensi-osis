@@ -1,0 +1,20 @@
+name: Account Test
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - run: cd backend
+
+      - run: npm ci
+
+      - run: npm test
