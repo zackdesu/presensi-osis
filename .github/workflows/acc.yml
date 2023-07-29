@@ -16,11 +16,16 @@ jobs:
       - name: Install dependencies
         working-directory: backend
         run: npm ci
-        
+
       - name: Prisma generate
         working-directory: backend
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
         run: npx prisma generate
-        
+
       - name: Run Tests
         working-directory: backend
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
         run: npm test
