@@ -41,6 +41,11 @@ app.use(express.urlencoded({ extended: true }));
 type SameSite = boolean | "lax" | "none" | "strict";
 
 const sessConfig = {
+  store: MongoStore.create({
+    mongoUrl: process.env.DATABASE_URL,
+    ttl: 60 * 60 * 24 * 3,
+    stringify: false,
+  }),
   secret: process.env.SECRET_KEY!,
   resave: false,
   saveUninitialized: false,
@@ -49,11 +54,6 @@ const sessConfig = {
     secure: false,
     sameSite: false as SameSite,
   },
-  store: MongoStore.create({
-    mongoUrl: process.env.DATABASE_URL,
-    ttl: 60 * 60 * 24 * 3,
-    stringify: false,
-  }),
 };
 
 if (app.get("env") === "production") {
