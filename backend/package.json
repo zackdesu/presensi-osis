@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles --forceExit deleteacc.test.ts",
     "pretest": "jest --runInBand --detectOpenHandles --forceExit feature.test.ts && jest --runInBand --detectOpenHandles --forceExit route.test.ts",
-    "dev": "ts-node-dev ./src/server.ts"
+    "dev": "ts-node-dev -T ./src/server.ts"
   },
   "jest": {
     "transform": {
