@@ -140,24 +140,19 @@ router.post(
 
       if (findMeeting.length === 0)
         return res.status(404).json({
-          message: "Pertemuan berikutnya belum ditentukan, coba lagi nanti.",
+          message: "Pertemuan belum dibuat!",
         });
 
       const nextMeetingStarts = findMeeting[0].startTime.getTime();
 
-      const diff = nextMeetingStarts - Date.now();
-
       if (Date.now() <= nextMeetingStarts)
         return res.status(403).json({
-          message: `Pertemuan belum dimulai, tunggu ${Math.floor(
-            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          )} jam ${Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))} menit`,
+          message: `Pertemuan belum dimulai!`,
         });
 
       if (req.session.user.hadir)
         return res.status(403).json({
-          message:
-            "Kamu sudah melakukan dipertemuan ini, coba lagi setelah meeting dibuat.",
+          message: "Melebihi batas presensi!",
         });
 
       if (!password)
