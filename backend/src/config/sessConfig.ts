@@ -1,5 +1,4 @@
 import MongoStore from "connect-mongo";
-import { app } from "../app";
 import { SameSite } from "../type/samesite";
 
 export const sessConfig = {
@@ -17,9 +16,3 @@ export const sessConfig = {
     sameSite: false as SameSite,
   },
 };
-
-if (app.get("env") === "production") {
-  app.set("trust proxy", 1);
-  sessConfig.cookie.secure = true;
-  sessConfig.cookie.sameSite = "none" as SameSite;
-}
