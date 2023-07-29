@@ -1,6 +1,6 @@
-require("dotenv").config();
+import "dotenv/config";
 
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import {
   getRouter,
   postRouter,
@@ -9,8 +9,40 @@ import {
   dataRouter,
   meetingRouter,
 } from "./route";
+import session from "express-session";
+import { SameSite } from "./type/samesite";
+import { sessConfig } from "./config/sessConfig";
 
 export const app: Express = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1);
+  sessConfig.cookie.secure = true;
+  sessConfig.cookie.sameSite = "none" as SameSite;
+}
+app.use(session(sessConfig));
+
+// CORS
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const allowedOrigins = ["http://localhost:5173"];
+  const origin = req.headers.origin;
+
+  if (origin) {
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+  }
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  return next();
+});
 
 app.use(dataRouter);
 app.use(getRouter);
