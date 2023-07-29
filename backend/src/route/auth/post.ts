@@ -192,8 +192,6 @@ router.post(
 
       req.session.user.hadir = true;
 
-      console.log(updateKehadiran);
-
       return res.status(200).json({ message: "Berhasil melakukan presensi!" });
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });

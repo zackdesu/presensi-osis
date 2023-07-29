@@ -137,7 +137,6 @@ router.delete(
       const attendCheck = await prisma.attendance.findMany();
 
       for (const attendUser of attendCheck) {
-        console.log(attendUser);
 
         const id = attendUser.userId;
 
@@ -168,8 +167,6 @@ router.delete(
               pertemuanDihadiriId: dihadiri,
             },
           });
-
-          console.log(decrement);
         }
       }
 
