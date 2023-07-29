@@ -4,11 +4,95 @@ GET http://localhost:3000
 
 ###
 
-GET http://localhost:3000/userdata
+GET http://localhost:3000/datauser
 
 ###
-GET http://localhost:3000/agendadata
+GET http://localhost:3000/dataagenda
 
 ###
 
-GET http://localhost:3000/pertemuandata
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "name": "Alok",
+    "password": "123123"
+}
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "name": "Admin",
+    "password": "123123"
+}
+
+###
+
+GET http://localhost:3000/login
+
+###
+
+POST http://localhost:3000/logout
+
+###
+
+PUT http://localhost:3000/edit
+Content-Type: application/json
+
+{
+    "name": "Elaef",
+    "oldPassword": "123456",
+    "newPassword": "1234567"
+}
+
+###
+
+DELETE http://localhost:3000/delete
+
+###
+
+POST http://localhost:3000/presensi
+Content-Type: application/json
+
+{
+    "password": "meeting12345"
+}
+
+
+###
+GET http://localhost:3000/checkTime
+
+###
+DELETE http://localhost:3000/presensi
+
+###
+
+GET http://localhost:3000/datapertemuan
+###
+
+GET http://localhost:3000/semuadatapertemuan
+
+###
+GET http://localhost:3000/datapertemuan/64bb6bfb4185b0d169102ebd
+
+###
+DELETE http://localhost:3000/datapertemuan/64c39bee78007e1629a25509
+
+###
+
+POST http://localhost:3000/datapertemuan
+Content-Type: application/json
+
+{
+    "name": "Rapat Jam 8 juga",
+    "startTime": "2023-07-28T10:00:00.000Z",
+    "endTime": "2023-07-28T11:00:00.000Z",
+    "location": "Di Rumah",
+    "password": "meeting12345"
+}
+
+###
+GET http://localhost:5173/
