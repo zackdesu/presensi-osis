@@ -13,8 +13,10 @@ jobs:
         with:
           node-version: 12
 
-      - run: cd backend
-
-      - run: npm ci
-
-      - run: npm test
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+        
+      - name: Run Tests
+        working-directory: backend
+        run: npm test
