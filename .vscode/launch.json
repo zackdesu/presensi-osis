@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "name": "Launch Frontend",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}\\frontend"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Launch Backend",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}\\backend"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Backend Test",
+      "request": "launch",
+      "command": "npm test",
+      "cwd": "${workspaceFolder}\\backend"
+    }
+  ]
+}
