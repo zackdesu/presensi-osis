@@ -1,1 +1,17 @@
+name: Linter
 
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Run lint script
+        run: bash ${GITHUB_WORKSPACE}/.github/workflows/lint.sh
