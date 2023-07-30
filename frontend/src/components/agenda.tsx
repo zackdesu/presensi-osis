@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { AiOutlineCalendar, AiOutlineClockCircle } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DataAgenda } from "./type";
@@ -9,7 +9,7 @@ const Agenda = () => {
 
   useEffect(() => {
     api
-      .get("/dataagenda")
+      .get<SetStateAction<DataAgenda[]>>("/dataagenda")
       .then((res) => {
         setDataAgenda(res.data);
         setIsLoading(false);

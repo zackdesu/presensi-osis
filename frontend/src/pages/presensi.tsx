@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { DataPertemuan, DataUser } from "../components/type";
 import api from "../api/axios";
 import toast from "react-hot-toast";
+import { AxiosResponse } from "axios";
 
 const Presensi = () => {
   const [semuaDataPertemuan, setSemuaDataPertemuan] = useState<DataPertemuan[]>(
@@ -14,18 +15,22 @@ const Presensi = () => {
 
   useEffect(() => {
     api
-      .get("/login")
-      .then((res) => setUser(res.data.session))
+      .get<{ session: DataUser }>("/login")
+      .then((res: AxiosResponse<{ session: DataUser }>) =>
+        setUser(res.data.session)
+      )
       .catch((err) => console.log(err));
   }, [user]);
 
   useEffect(() => {
     api
       .get("/dataPertemuan")
-      .then((res) => {
+      .then((res: AxiosResponse<DataPertemuan>) => {
         setDataPertemuan(res.data);
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err: { response: { data: { message: string } } }) =>
+        console.log(err.response.data.message)
+      );
 
     return;
   }, [dataPertemuan]);
@@ -33,7 +38,7 @@ const Presensi = () => {
   useEffect(() => {
     api
       .get("/semuadatapertemuan")
-      .then((res) => {
+      .then((res: AxiosResponse<DataPertemuan[]>) => {
         setSemuaDataPertemuan(res.data);
       })
       .catch((err) => console.log(err));
@@ -46,15 +51,21 @@ const Presensi = () => {
   useEffect(() => {
     api
       .get("/checkTime")
-      .then((res) => console.log(res.data.message))
-      .catch((err) => console.error(err.response.data.message));
+      .then((res: AxiosResponse<{ message: string }>) =>
+        console.log(res.data.message)
+      )
+      .catch((err: { response: { data: { message: string } } }) =>
+        console.error(err.response.data.message)
+      );
   }, []);
 
   const handlePresensi = () => {
     api
       .post("/presensi")
-      .then((res) => toast.success(res.data.message))
-      .catch((err) => {
+      .then((res: AxiosResponse<{ message: string }>) =>
+        toast.success(res.data.message)
+      )
+      .catch((err: { response: { data: { message: string } } }) => {
         console.error(err.response.data.message);
         toast.error("Waktu presensi habis!");
       });
@@ -76,7 +87,7 @@ const Presensi = () => {
         <p>
           {isLoading
             ? "Loading..."
-            : `${user && user.kehadiran} dari ${
+            : `${user ? user.kehadiran : ""} dari ${
                 semuaDataPertemuan.length
               } pertemuan`}
         </p>
@@ -84,11 +95,11 @@ const Presensi = () => {
       <section className="bg-zinc-950 rounded-xl col-span-full flex items-center justify-center md:col-span-7">
         <img
           src={user && (user.img as string)}
-          alt={user && (user.name as string)}
+          alt={user && user.name}
           className="w-[30px] h-[30px] md:w-[35px] md:h-[35px] rounded-full mr-3"
         />
-        <h6 className="mr-2 md:mr-5">{user && (user.name as string)}</h6> |{" "}
-        <p className="ml-2 md:ml-5">{user && (user.role as string)}</p>
+        <h6 className="mr-2 md:mr-5">{user && user.name}</h6> |{" "}
+        <p className="ml-2 md:ml-5">{user && user.role}</p>
       </section>
       <section className="bg-zinc-950 rounded-xl flex col-span-full md:col-span-7 items-center justify-center">
         <h6>Status Presensi:&nbsp;</h6>{" "}

@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import axios from "axios";
+import {
+  createContext,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import axios, { AxiosResponse } from "axios";
 import api from "./axios";
 import { DataUser } from "../components/type";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,30 +45,44 @@ const HeaderProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const path = (pathName: string) => {
-    return location.pathname === pathName;
-  };
+  const path = useCallback(
+    (pathName: string) => {
+      return location.pathname === pathName;
+    },
+    [location.pathname]
+  );
 
   useEffect(() => {
     axios
-      .get(import.meta.env.VITE_WEATHER_API)
-      .then((res) => setWeather(res.data))
-      .catch((res) => console.log(res.data.message));
+      .get<SetStateAction<Weather | undefined>>(
+        import.meta.env.VITE_WEATHER_API as string
+      )
+      .then((res: AxiosResponse<SetStateAction<Weather | undefined>>): void =>
+        setWeather(res.data)
+      )
+      .catch((err: { response: { data: { message: string } } }) =>
+        console.log(err.response.data.message)
+      );
   }, []);
 
   useEffect(() => {
     if (path("/login") || path("/register")) return;
     api
-      .get("/login")
-      .then((res) => res.data && setAcc(res.data.session))
-      .catch((err) => {
+      .get<{ session: DataUser }>("/login")
+      .then(
+        (res: AxiosResponse<{ session: DataUser }>) =>
+          res.data && setAcc(res.data.session)
+      )
+      .catch((err: { response: { data: { message: string } } }) => {
         console.log(err.response.data.message);
         return navigate("/login");
       });
-  }, [navigate]);
+  }, [navigate, path]);
 
   const icon =
-    import.meta.env.VITE_ICONS_WEATHER_API + weather?.weather[0].icon + ".png";
+    (import.meta.env.VITE_ICONS_WEATHER_API as string) +
+    (weather?.weather[0].icon as string) +
+    ".png";
 
   const requiredData = {
     name: acc?.name as string,

@@ -1,7 +1,7 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { GoDotFill } from "react-icons/go";
 import { DataUser } from "./type";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import api from "../api/axios";
 
 const Cards = ({
@@ -24,7 +24,7 @@ const Cards = ({
     <p className="opacity-70 col-span-1 flex items-center truncate ...">
       <GoDotFill
         className={`mr-2 ${
-          status.toLowerCase() === "online" && "text-green-400"
+          status.toLowerCase() === "online" ? "text-green-400" : ""
         }`}
       />{" "}
       {status}
@@ -39,7 +39,7 @@ const ProfileCard = () => {
 
   useEffect(() => {
     api
-      .get("/datauser")
+      .get<SetStateAction<DataUser[]>>("/datauser")
       .then((res) => {
         setDataUser(res.data);
         setIsLoading(false);

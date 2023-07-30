@@ -14,7 +14,7 @@ const Calendar = () => (
       {dayName.map((m, i) => (
         <span
           className={`p-2 text-[.7rem] rounded-full ${
-            m === toDayName && "bg-orange-500"
+            m === toDayName ? "bg-orange-500" : ""
           }`}
           key={i}
         >
@@ -27,7 +27,7 @@ const Calendar = () => (
       {oneMonthDate.map((d, i) => (
         <span
           className={`rounded-full text-[.7rem] flex items-center justify-center w-[20px] h-[20px] p-3 ${
-            d === day.toString() && "bg-orange-500"
+            d === day.toString() ? "bg-orange-500" : ""
           }`}
           key={i}
         >

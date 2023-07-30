@@ -10,8 +10,8 @@ const Login = () => {
     e.preventDefault();
 
     const data = {
-      name: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
+      name: (e.currentTarget.username as { value: string }).value,
+      password: (e.currentTarget.password as { value: string }).value,
     };
 
     api
@@ -20,7 +20,9 @@ const Login = () => {
         console.log(res.data);
         navigate("/");
       })
-      .catch((err) => toast.error(err.response.data.message));
+      .catch((err: { response: { data: { message: string } } }) =>
+        toast.error(err.response.data.message)
+      );
 
     return;
   };

@@ -1,12 +1,20 @@
+export type Attendance = {
+  id?: string;
+  userId?: string | null;
+  timestamp?: Date | null;
+};
+
 export type DataUser = {
   id: string;
-  img: string | null | undefined;
+  img: string | null;
   kehadiran: number;
   name: string;
   password: string;
   role: "Administrator" | "Moderator" | "Member" | string;
   status: "Online" | "Offline" | string | null;
-  hadir: boolean;
+  statusHadir?: Attendance[];
+  hadir?: boolean;
+  pertemuanDihadiri?: [{ id: string }];
 };
 
 export type DataAgenda = {

@@ -1,6 +1,7 @@
 import { FormEvent } from "react";
 import api from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -9,17 +10,19 @@ const Register = () => {
     e.preventDefault();
 
     const data: { name: string; password: string } = {
-      name: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
+      name: (e.currentTarget.username as { value: string }).value,
+      password: (e.currentTarget.password as { value: string }).value,
     };
 
     api
       .post("/register", data)
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         console.log(res.data);
         navigate("/login");
       })
-      .catch((err) => console.error(err.response.data.message));
+      .catch((err: { response: { data: { message: string } } }) =>
+        console.error(err.response.data.message)
+      );
 
     return;
   };

@@ -40,7 +40,9 @@ const SideBar = () => {
         console.log(res.data);
         return navigate("/login");
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err: { response: { data: { message: string } } }) =>
+        console.log(err.response.data.message)
+      );
 
     return;
   };
@@ -51,11 +53,11 @@ const SideBar = () => {
 
       <div className="flex flex-col items-center justify-between h-full">
         <div className="flex flex-col items-center xl:group-hover:items-start mt-10 ">
-          <SetIcon name="Home" icon={IoHome} />
-          <SetIcon name="Presensi" icon={FaList} />
-          <SetIcon name="Galeri" icon={TfiGallery} />
-          <SetIcon name="Tentang" icon={BsInfoCircleFill} />
-          <SetIcon name="Bantuan" icon={BiSolidHelpCircle} />
+          <SetIcon name="Home" icon={IoHome as IconType} />
+          <SetIcon name="Presensi" icon={FaList as IconType} />
+          <SetIcon name="Galeri" icon={TfiGallery as IconType} />
+          <SetIcon name="Tentang" icon={BsInfoCircleFill as IconType} />
+          <SetIcon name="Bantuan" icon={BiSolidHelpCircle as IconType} />
         </div>
         <div>
           <TbLogout2

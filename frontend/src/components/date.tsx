@@ -44,7 +44,7 @@ export const toDayName = dayName[dayOnWeek - 1];
 
 export const jumpDate = new Date(year, monthNum, 1).getDay();
 
-export const dateNow = day + " " + month;
+export const dateNow = day.toString() + " " + month;
 
 export const fullDate = `${toDayName}, ${day} ${month} ${year}`;
 
