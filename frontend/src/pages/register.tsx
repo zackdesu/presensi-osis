@@ -3,15 +3,32 @@ import api from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AxiosResponse } from "axios";
 
+type Value = {
+  value: string;
+};
+
 const Register = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data: { name: string; password: string } = {
-      name: (e.currentTarget.username as { value: string }).value,
-      password: (e.currentTarget.password as { value: string }).value,
+    const kelas = (e.currentTarget.kelas as Value).value;
+    const jurusan = (e.currentTarget.jurusan as Value).value;
+    const lokal = (e.currentTarget.lokal as Value).value;
+
+    const data: {
+      name: string;
+      password: string;
+      kelas: string;
+      jurusan: string;
+      lokal: string;
+    } = {
+      name: (e.currentTarget.username as Value).value,
+      password: (e.currentTarget.password as Value).value,
+      kelas,
+      jurusan,
+      lokal,
     };
 
     api
@@ -56,6 +73,57 @@ const Register = () => {
           autoComplete="off"
           minLength={6}
         />
+
+        <label htmlFor="kelas" className="font-medium text-zinc-400">
+          <p>Kelas</p>
+        </label>
+        <select
+          id="kelas"
+          name="kelas"
+          className="bg-black px-3 py-2 mb-5"
+          required
+        >
+          <option value={""}>-- Pilih Kelas --</option>
+          <option value={"X"}>X (10)</option>
+          <option value={"XI"}>XI (11)</option>
+        </select>
+
+        <label htmlFor="jurusan" className="font-medium text-zinc-400">
+          <p>Jurusan</p>
+        </label>
+
+        <select
+          id="jurusan"
+          name="jurusan"
+          className="bg-black px-3 py-2 mb-5"
+          required
+        >
+          <option value={""}>-- Pilih Jurusan --</option>
+          <option value={"AKL"}>Akuntansi dan Keuangan Lembaga</option>
+          <option value={"Busana"}>Busana</option>
+          <option value={"Kuliner"}>Kuliner</option>
+          <option value={"MPLB"}>
+            Manajemen Perkantoran dan Layanan Bisnis
+          </option>
+          <option value={"Pemasaran"}>Pemasaran</option>
+          <option value={"ULP"}>Usaha Layanan Pariwisata</option>
+          <option value={"TJKT"}>
+            Teknik Jaringan Komputer dan Telekomunikasi
+          </option>
+        </select>
+
+        <label className="font-medium text-zinc-400">
+          <p className="after:content-['_(kosongkan_jika_tidak_ada)'] after:text-[.6rem] after:absolute after:-top-1/4 after:left-8 md:after:left-11 relative">
+            Lokal
+          </p>
+        </label>
+
+        <select id="lokal" name="lokal" className="bg-black px-3 py-2 mb-5">
+          <option value={""}>-- Pilih Lokal --</option>
+          <option value={"1"}>1</option>
+          <option value={"2"}>2</option>
+          <option value={"3"}>3</option>
+        </select>
 
         <button className="px-8 py-2 font-semibold bg-orange-500 rounded-lg my-8">
           Register
