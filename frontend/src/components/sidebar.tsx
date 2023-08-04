@@ -4,11 +4,11 @@ import { IoHome } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { TfiGallery } from "react-icons/tfi";
-import { BiSolidHelpCircle } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import api from "../api/axios";
+import { AiFillSetting } from "react-icons/ai";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const SideBar = () => {
           <SetIcon name="Presensi" icon={FaList as IconType} />
           <SetIcon name="Galeri" icon={TfiGallery as IconType} />
           <SetIcon name="Tentang" icon={BsInfoCircleFill as IconType} />
-          <SetIcon name="Bantuan" icon={BiSolidHelpCircle as IconType} />
+          <SetIcon name="Pengaturan" icon={AiFillSetting as IconType} />
         </div>
         <div>
           <TbLogout2
