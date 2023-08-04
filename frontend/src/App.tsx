@@ -9,6 +9,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import HeaderProvider from "./api/headerContext";
 import { Toaster } from "react-hot-toast";
+import PasswordChange from "./pages/passwordchange";
 
 const App = () => {
   return (
@@ -55,6 +56,14 @@ const App = () => {
               </>
             }
             path="/pengaturan"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <PasswordChange /> <Toaster />
+              </>
+            }
+            path="/pengaturan/password"
           />
           <Route
             element={
