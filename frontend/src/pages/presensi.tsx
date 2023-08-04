@@ -1,5 +1,5 @@
 import Header from "../components/header";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { DataPertemuan, DataUser } from "../components/type";
 import api from "../api/axios";
 import toast from "react-hot-toast";
@@ -59,15 +59,21 @@ const Presensi = () => {
       );
   }, []);
 
-  const handlePresensi = () => {
+  const handlePresensi = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = {
+      password: (e.currentTarget.password as { value: string }).value,
+    };
+
     api
-      .post("/presensi")
+      .post("/presensi", data)
       .then((res: AxiosResponse<{ message: string }>) =>
         toast.success(res.data.message)
       )
       .catch((err: { response: { data: { message: string } } }) => {
         console.error(err.response.data.message);
-        toast.error("Waktu presensi habis!");
+        toast.error(err.response.data.message);
       });
   };
 
@@ -147,14 +153,23 @@ const Presensi = () => {
                   .slice(0, 5)}
           </p>
         </div>
-        <div className="md:w-1/4 flex items-center justify-center">
+        <form
+          onSubmit={handlePresensi}
+          className="md:w-1/4 flex max-md:justify-evenly max-md:mt-3 md:flex-col items-center justify-center"
+        >
+          <input
+            type="text"
+            className="bg-transparent py-2 px-5 outline-none border border-zinc-700 w-1/2 md:w-3/4"
+            name="password"
+            id="password"
+          />
           <button
-            className="py-2 px-5 m-4 bg-green-500 rounded-xl"
-            onClick={handlePresensi}
+            className="py-2 px-5 bg-green-500 rounded-xl md:mt-4"
+            type="submit"
           >
             <p>Presensi Disini</p>
           </button>
-        </div>
+        </form>
       </section>
     </div>
   );
