@@ -25,7 +25,7 @@ const Header = () => {
 
       <h6 className="my-1 col-end-13 col-span-2 row-span-2 rounded-xl bg-zinc-700 text-white place-self-center p-2 hidden sm:flex items-center">
         {data && <img src={data.icon} width={18} className="mr-2" />}
-        {data ? data.temp.toString() + "°C" : "Bad Network"}
+        {data ? `${data.temp}°C` : "Bad Network"}
       </h6>
     </header>
   );
