@@ -23,7 +23,11 @@ const SideBar = () => {
         <div
           className={
             "flex my-3 p-2 justify-between cursor-pointer " +
-            (path === linkTo ? "bg-white rounded-xl text-black" : "text-white")
+            (path.includes(name.toLowerCase())
+              ? "bg-white rounded-xl text-black"
+              : path === linkTo
+              ? "bg-white rounded-xl text-black"
+              : "text-white")
           }
         >
           <Icon size={"1.4rem"} />
