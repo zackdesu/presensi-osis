@@ -29,6 +29,7 @@ model user {
   img         String?
   kehadiran   Int
   name        String
+  kelas       String
   password    String
   role        String
   pertemuanDihadiriId String[] @db.ObjectId
