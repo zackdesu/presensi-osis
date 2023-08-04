@@ -39,7 +39,7 @@ const ProfileCard = () => {
 
   useEffect(() => {
     api
-      .get<SetStateAction<DataUser[]>>("/datauser")
+      .get<SetStateAction<DataUser[]>>("/datauserforhome")
       .then((res) => {
         setDataUser(res.data);
         setIsLoading(false);
