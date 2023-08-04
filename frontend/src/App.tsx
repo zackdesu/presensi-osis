@@ -4,7 +4,7 @@ import Home from "./pages/home";
 import Presensi from "./pages/presensi";
 import Tentang from "./pages/tentang";
 import Gallery from "./pages/gallery";
-import Bantuan from "./pages/bantuan";
+import Pengaturan from "./pages/pengaturan";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import HeaderProvider from "./api/headerContext";
@@ -51,10 +51,10 @@ const App = () => {
           <Route
             element={
               <>
-                <SideBar /> <Bantuan /> <Toaster />
+                <SideBar /> <Pengaturan /> <Toaster />
               </>
             }
-            path="/bantuan"
+            path="/pengaturan"
           />
           <Route
             element={
