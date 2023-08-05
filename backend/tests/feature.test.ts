@@ -23,6 +23,9 @@ describe("account test", () => {
         .send({
           name: "testaccount1234567890",
           password: "testaccount1234567890",
+          kelas: "X",
+          jurusan: "Test",
+          lokal: "2",
         })
         .set("Accept", "application/json")
         .expect("Content-Type", /json/);
