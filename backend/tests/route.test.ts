@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../src/app";
 import prisma from "../libs/prisma";
+import "@types/jest";
 
 describe("test route path", () => {
   beforeAll((done) => {
