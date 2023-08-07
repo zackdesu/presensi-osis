@@ -1,6 +1,7 @@
+// @ts-nocheck
+
 import request from "supertest";
 import { app } from "../src/app";
-import "@types/jest";
 
 describe("account delete", () => {
   let cookie: string[] | undefined;

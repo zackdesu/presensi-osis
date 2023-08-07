@@ -1,7 +1,8 @@
+// @ts-nocheck
+
 import request from "supertest";
 import { app } from "../src/app";
 import prisma from "../libs/prisma";
-import "@types/jest";
 
 describe("account test", () => {
   let cookie: string[] | undefined;
