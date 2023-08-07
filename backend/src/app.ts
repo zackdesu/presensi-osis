@@ -29,7 +29,7 @@ app.use(session(sessConfig));
 app.use((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins: string[] = [
     "http://localhost:5173",
-    "https://frontend-presensi-osis.vercel.app/",
+    "https://presensi-osis.vercel.app/",
   ];
   const origin = req.headers.origin as string;
 
