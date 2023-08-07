@@ -28,12 +28,13 @@ app.use(session(sessConfig));
 // CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
   const allowedOrigins: string[] = [
+    "https://presensi-osis.vercel.app",
     "http://localhost:5173",
-    "https://presensi-osis.vercel.app/",
   ];
   const origin = req.headers.origin as string;
 
   if (origin) {
+    console.log(allowedOrigins.includes(origin));
     if (allowedOrigins.includes(origin)) {
       res.setHeader("Access-Control-Allow-Origin", origin);
     }
