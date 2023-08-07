@@ -15,7 +15,7 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "name": "Alok",
+    "name": "Admin",
     "password": "123123"
 }
 
@@ -79,7 +79,7 @@ GET http://localhost:3000/semuadatapertemuan
 GET http://localhost:3000/datapertemuan/64bb6bfb4185b0d169102ebd
 
 ###
-DELETE http://localhost:3000/datapertemuan/64c523aba244b6f8fabeaf3e
+DELETE http://localhost:3000/datapertemuan/clksafge50002stocw789xiiv
 
 ###
 
@@ -88,8 +88,8 @@ Content-Type: application/json
 
 {
     "name": "Rapat Jam 8 juga",
-    "startTime": "2023-07-29T14:00:00.000Z",
-    "endTime": "2023-07-29T15:00:00.000Z",
+    "startTime": "2023-08-03T00:00:00.000Z",
+    "endTime": "2023-08-03T01:00:00.000Z",
     "location": "Di Rumah",
     "password": "meeting12345"
 }
