@@ -1,5 +1,7 @@
 import { FormEvent } from "react";
 import Header from "../components/header";
+import api from "../api/axios";
+import toast from "react-hot-toast";
 
 const PasswordChange = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -10,7 +12,12 @@ const PasswordChange = () => {
       newPassword: (e.currentTarget.newPassword as { value: string }).value,
     };
 
-    console.log(data);
+    api
+      .put("/editpassword", { data })
+      .then((res: { data: { message: string } }) =>
+        toast.success(res.data.message)
+      )
+      .catch((err) => console.log(err));
   };
 
   return (
