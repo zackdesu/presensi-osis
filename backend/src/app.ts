@@ -12,6 +12,8 @@ import {
 import session from "express-session";
 import { SameSite } from "./type/samesite";
 import { sessConfig } from "./config/sessConfig";
+import { v2 as cloudinary } from "cloudinary";
+import cloudinaryConfig from "./config/cloudinaryConfig";
 
 export const app: Express = express();
 
@@ -34,7 +36,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   const origin = req.headers.origin as string;
 
   if (origin) {
-    console.log(allowedOrigins.includes(origin));
     if (allowedOrigins.includes(origin)) {
       res.setHeader("Access-Control-Allow-Origin", origin);
     }
@@ -47,6 +48,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   return next();
 });
+
+cloudinary.config(cloudinaryConfig);
 
 app.use(dataRouter);
 app.use(getRouter);
