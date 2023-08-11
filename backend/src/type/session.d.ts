@@ -5,6 +5,7 @@ declare module "express-session" {
     user: {
       id: string;
       img: string | null;
+      imgid?: string | null;
       kehadiran: number;
       name: string;
       password: string;
