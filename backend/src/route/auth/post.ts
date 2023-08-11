@@ -225,10 +225,11 @@ router.post(
         },
       });
 
-      if (!user || !user.imgid)
-        throw new Error("User tidak ditemukan saat mengganti avatar");
+      if (!user) throw new Error("User tidak ditemukan saat mengganti avatar");
 
-      cloudinary.uploader.destroy(user.imgid);
+      if (user.imgid) {
+        cloudinary.uploader.destroy(user.imgid);
+      }
 
       cloudinary.uploader
         .upload_stream(
