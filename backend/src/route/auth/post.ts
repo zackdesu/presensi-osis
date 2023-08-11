@@ -7,6 +7,9 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { UserData } from "../../type/userdata";
+import { upload } from "../../config/multerConfig";
+import sharp from "sharp";
+import { v2 as cloudinary } from "cloudinary";
 
 export const router: Router = Router();
 
@@ -194,6 +197,72 @@ router.post(
       req.session.user.hadir = true;
 
       return res.status(200).json({ message: "Berhasil melakukan presensi!" });
+    } catch (error) {
+      return res.status(500).json({ message: "Internal Server Error", error });
+    }
+  }
+);
+
+router.post(
+  "/useravatar",
+  isUserAuthenticated,
+  upload,
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.session.user) return;
+      if (!req.file)
+        return res.status(404).json({ message: "Gambar tidak ditemukan" });
+      const file = req.file;
+
+      if (!file.mimetype.includes("image"))
+        res.status(422).json({ message: "File bukan sebuah gambar" });
+
+      const pict = await sharp(file.buffer).resize(300, 300).toBuffer();
+
+      const user = await prisma.user.findFirst({
+        where: {
+          id: req.session.user.id,
+        },
+      });
+
+      if (!user || !user.imgid)
+        throw new Error("User tidak ditemukan saat mengganti avatar");
+
+      cloudinary.uploader.destroy(user.imgid);
+
+      cloudinary.uploader
+        .upload_stream(
+          { format: "jpg", folder: "dev" },
+          async (err, result) => {
+            if (err) return res.status(500).json({ err });
+
+            const updateUser = await prisma.user.update({
+              where: {
+                id: user?.id,
+              },
+              data: {
+                img: result?.secure_url,
+                imgid: result?.public_id,
+              },
+            });
+
+            req.session.regenerate((err) => {
+              if (err) throw err;
+
+              if (!updateUser.img || !updateUser.imgid) return;
+
+              req.session.user = updateUser;
+
+              req.session.save((err) => {
+                if (err) throw err;
+                return res
+                  .status(200)
+                  .json({ message: "Berhasil mengganti avatar!" });
+              });
+            });
+          }
+        )
+        .end(pict);
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
