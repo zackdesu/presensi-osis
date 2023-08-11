@@ -11,7 +11,7 @@ describe("account delete", () => {
       const res = await request(app)
         .post("/login")
         .send({
-          name: "testaccount123456789",
+          name: "testaccount1234567890",
           password: "testaccount12345678910",
         })
         .set("Accept", "application/json")

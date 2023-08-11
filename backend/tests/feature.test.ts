@@ -69,12 +69,11 @@ describe("account test", () => {
     return expect(res.statusCode).toBe(200);
   });
 
-  it("should be able to edit acc information", async () => {
+  it("should be able to edit password", async () => {
     const res = await request(app)
-      .put("/edit")
+      .put("/editpassword")
       .set("Cookie", cookie as string[])
       .send({
-        name: "testaccount123456789",
         oldPassword: "testaccount1234567890",
         newPassword: "testaccount12345678910",
       })
