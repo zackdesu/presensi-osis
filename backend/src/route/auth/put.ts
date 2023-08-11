@@ -7,18 +7,16 @@ import bcrypt from "bcryptjs";
 export const router: Router = Router();
 
 router.put(
-  "/edit",
+  "/editpassword",
   isUserAuthenticated,
   async (req: Request, res: Response) => {
     try {
       const user = req.session.user;
 
       const {
-        name,
         oldPassword,
         newPassword,
-      }: { name: string; oldPassword?: string; newPassword?: string } =
-        req.body;
+      }: { oldPassword: string; newPassword: string } = req.body;
 
       if (!user)
         return res
@@ -35,19 +33,8 @@ router.put(
         user.password
       );
 
-      let updateName: UserData;
       let updatePassword: UserData;
 
-      if (name !== user.name) {
-        updateName = await prisma.user.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            name,
-          },
-        });
-      }
       if (newPassword && !compareWithPassSession) {
         if (!compareOldPass)
           return res.status(403).json({
@@ -65,20 +52,17 @@ router.put(
           },
         });
       }
-
       req.session.regenerate((err) => {
         if (err) throw err;
 
-        if (updateName) req.session.user = { ...user, name: updateName.name };
-        if (updatePassword)
-          req.session.user = { ...user, name: updatePassword.password };
+        req.session.user = { ...user, password: updatePassword.password };
 
         req.session.save((err) => {
           if (err) throw err;
 
           return res
             .status(200)
-            .json({ message: "Kamu berhasil mengupdate data dirimu!" });
+            .json({ message: "Kamu berhasil mengupdate passwordmu!" });
         });
       });
     } catch (error) {
