@@ -93,8 +93,6 @@ describe("account test", () => {
 
     cookie = res.headers["set-cookie"];
 
-    console.log(res);
-
     return expect(res.statusCode).toBe(200);
   });
 
