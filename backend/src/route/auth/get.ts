@@ -14,21 +14,20 @@ router.get(
         where: {
           name: req.session.user.name,
         },
-        include: {
-          statusHadir: {
-            select: {
-              id: true,
-              user: true,
-            },
-          },
-        },
       });
+
       const data = {
         session: req.session.user,
         database: user,
       };
 
-      res.status(200).json(data);
+      req.session.reload((err) => {
+        if (err) throw err;
+
+        req.session.user = user;
+
+        res.status(200).json(data);
+      });
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
