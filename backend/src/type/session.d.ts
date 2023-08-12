@@ -5,15 +5,16 @@ declare module "express-session" {
     user: {
       id: string;
       img: string | null;
-      imgid?: string | null;
+      imgid: string | null;
       kehadiran: number;
       name: string;
+      kelas: string;
       password: string;
       role: "Administrator" | "Moderator" | "Member" | string;
       status: "Online" | "Offline" | string | null;
       statusHadir?: Attendance[];
       hadir?: boolean;
       pertemuanDihadiri?: [{ id: string }];
-    };
+    } | null;
   }
 }
