@@ -33,8 +33,6 @@ router.put(
         user.password
       );
 
-      let updatePassword: UserData;
-
       if (newPassword && !compareWithPassSession) {
         if (!compareOldPass)
           return res.status(403).json({
@@ -43,7 +41,7 @@ router.put(
 
         const hashedPassword = await bcrypt.hash(newPassword as string, 10);
 
-        updatePassword = await prisma.user.update({
+        const updatePassword = await prisma.user.update({
           where: {
             id: user.id,
           },
@@ -51,20 +49,21 @@ router.put(
             password: hashedPassword,
           },
         });
-      }
-      req.session.regenerate((err) => {
-        if (err) throw err;
 
-        req.session.user = { ...user, password: updatePassword.password };
-
-        req.session.save((err) => {
+        req.session.regenerate((err) => {
           if (err) throw err;
 
-          return res
-            .status(200)
-            .json({ message: "Kamu berhasil mengupdate passwordmu!" });
+          req.session.user = updatePassword;
+
+          req.session.save((err) => {
+            if (err) throw err;
+
+            return res
+              .status(200)
+              .json({ message: "Kamu berhasil mengupdate passwordmu!" });
+          });
         });
-      });
+      }
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
