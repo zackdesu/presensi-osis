@@ -3,6 +3,7 @@
 import request from "supertest";
 import { app } from "../src/app";
 import prisma from "../libs/prisma";
+import path from "path";
 
 describe("account test", () => {
   let cookie: string[] | undefined;
@@ -80,6 +81,19 @@ describe("account test", () => {
       .set("Accept", "application/json");
 
     cookie = res.headers["set-cookie"];
+
+    return expect(res.statusCode).toBe(200);
+  });
+
+  it("should be able to change avatar", async () => {
+    const res = await request(app)
+      .post("/useravatar")
+      .set("Cookie", cookie as string[])
+      .attach("file", path.join(__dirname, "unnamed.png"));
+
+    cookie = res.headers["set-cookie"];
+
+    console.log(res);
 
     return expect(res.statusCode).toBe(200);
   });
