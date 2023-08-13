@@ -30,7 +30,10 @@ const SideBar = () => {
               : "text-white")
           }
         >
-          <Icon size={"1.4rem"} />
+          <Icon
+            size={"1.4rem"}
+            className="max-sm:w-[1.2rem] max-sm:h-[1.2rem]"
+          />
           <h6 className="ml-2 hidden xl:group-hover:block">{name}</h6>
         </div>
       </Link>
@@ -52,8 +55,12 @@ const SideBar = () => {
   };
 
   return (
-    <div className="fixed z-50 left-0 top-0 bottom-0 w-20 xl:hover:w-2/12 h-full p-5 bg-zinc-900 flex flex-col items-center transition-all group">
-      <img src="/osis.svg" alt="osissmkn1dumai" className="max-w-[50px]" />
+    <div className="fixed z-50 left-0 top-0 bottom-0 sm:w-20 xl:hover:w-2/12 h-full max-sm:px-2 py-5 bg-zinc-900 flex flex-col items-center transition-all group">
+      <img
+        src="/osis.svg"
+        alt="osissmkn1dumai"
+        className="max-w-[50px] max-sm:max-w-[45px]"
+      />
 
       <div className="flex flex-col items-center justify-between h-full">
         <div className="flex flex-col items-center xl:group-hover:items-start mt-10 ">
