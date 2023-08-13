@@ -8,7 +8,7 @@ const Home = () => {
   const Random = Math.floor(Math.random() * dataQuote.length);
 
   return (
-    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-20">
+    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-14 sm:ml-20">
       <Header />
       <section className="col-span-4 sm:col-span-2 md:col-span-6 lg:col-span-5 row-span-2 md:row-span-3 rounded-xl bg-zinc-950 flex flex-col items-center p-5">
         <Agenda />
