@@ -4,6 +4,7 @@ import { router as postRouter } from "./auth/post";
 import { router as putRouter } from "./auth/put";
 import { router as deleteRouter } from "./auth/delete";
 import { router as dataRouter } from "./data";
+import { router as roleRouter } from "./role";
 
 // Meeting
 import { router as meetingRouter } from "./meeting/meeting";
@@ -15,4 +16,5 @@ export {
   deleteRouter,
   dataRouter,
   meetingRouter,
+  roleRouter,
 };

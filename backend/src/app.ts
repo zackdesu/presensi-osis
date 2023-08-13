@@ -8,6 +8,7 @@ import {
   deleteRouter,
   dataRouter,
   meetingRouter,
+  roleRouter,
 } from "./route";
 import session from "express-session";
 import { SameSite } from "./type/samesite";
@@ -57,6 +58,7 @@ app.use(postRouter);
 app.use(putRouter);
 app.use(deleteRouter);
 app.use(meetingRouter);
+app.use(roleRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is online...");
