@@ -78,7 +78,7 @@ const Presensi = () => {
   };
 
   return (
-    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-20">
+    <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-6 h-full p-5 gap-8 ml-14 sm:ml-20">
       <Header />
       <section className="bg-zinc-950 rounded-xl col-span-full md:col-span-5 md:row-span-2 flex flex-col items-center justify-center p-1">
         <h6>Tingkat kehadiranmu adalah</h6>
