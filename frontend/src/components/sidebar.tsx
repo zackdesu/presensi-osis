@@ -4,15 +4,19 @@ import { IoHome } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { TfiGallery } from "react-icons/tfi";
+import { AiFillSetting } from "react-icons/ai";
+import { MdMeetingRoom } from "react-icons/md";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import api from "../api/axios";
-import { AiFillSetting } from "react-icons/ai";
+import { useContext } from "react";
+import { HeaderContext } from "../api/headerContext";
 
 const SideBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const data = useContext(HeaderContext);
   const path = location.pathname;
 
   const SetIcon = ({ name, icon: Icon }: { name: string; icon: IconType }) => {
@@ -69,6 +73,11 @@ const SideBar = () => {
           <SetIcon name="Galeri" icon={TfiGallery as IconType} />
           <SetIcon name="Tentang" icon={BsInfoCircleFill as IconType} />
           <SetIcon name="Pengaturan" icon={AiFillSetting as IconType} />
+          {data.role === "Admin" ? (
+            <SetIcon name="Meeting" icon={MdMeetingRoom as IconType} />
+          ) : (
+            ""
+          )}
         </div>
         <div>
           <TbLogout2
