@@ -10,6 +10,7 @@ import Register from "./pages/register";
 import HeaderProvider from "./api/headerContext";
 import { Toaster } from "react-hot-toast";
 import PasswordChange from "./pages/passwordchange";
+import Meeting from "./pages/meeting";
 
 const App = () => {
   return (
@@ -64,6 +65,14 @@ const App = () => {
               </>
             }
             path="/pengaturan/password"
+          />
+          <Route
+            element={
+              <>
+                <SideBar /> <Meeting /> <Toaster />
+              </>
+            }
+            path="/meeting"
           />
           <Route
             element={
