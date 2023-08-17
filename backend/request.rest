@@ -39,13 +39,12 @@ POST http://localhost:3000/logout
 
 ###
 
-PUT http://localhost:3000/edit
+PUT http://localhost:3000/editpassword
 Content-Type: application/json
 
 {
-    "name": "Elaef",
-    "oldPassword": "123456",
-    "newPassword": "1234567"
+    "oldPassword": "1231234",
+    "newPassword": "123123"
 }
 
 ###
@@ -95,4 +94,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5173/
+PUT http://localhost:3000/role/64d607aadc1acca7137f8192/mod
+
+###
+PUT http://localhost:3000/role/64d607aadc1acca7137f8192/member
