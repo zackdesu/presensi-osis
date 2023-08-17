@@ -112,7 +112,13 @@ router.post(
 
       await prisma.attendance.deleteMany({});
 
-      return res.status(200).json(createPertemuan);
+      return res
+        .status(200)
+        .json({
+          message:
+            "Pertemuan berhasil dibuat! Password pertemuan: " +
+            createPertemuan.password,
+        });
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
@@ -137,7 +143,6 @@ router.delete(
       const attendCheck = await prisma.attendance.findMany();
 
       for (const attendUser of attendCheck) {
-
         const id = attendUser.userId;
 
         if (!id) throw new Error("ID not found in attendUser");
